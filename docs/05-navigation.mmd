@@ -1,0 +1,79 @@
+%% Déduit de l'inventaire (doc 04), à vérifier écran par écran sur les maquettes
+flowchart TB
+  SPL[Splash] -->|session valide| HOME
+  SPL -->|pas de session| ONB[Découverte 1 à 3]
+  ONB --> REG[Inscription] --> ROLE[Préférences · Rôle] --> LANG[Préférences · Langue]
+  ONB --> LOG[Connexion]
+  LOG -->|401| LOGERR[Identifiants invalides]
+  LOG -->|SESSION_EXPIRED| LOGEXP[Session expirée]
+  LANG --> TP1[Profil 1 Établissement] --> TP2[Profil 2 Préférences] --> TP3[Profil 3 Importance]
+  TP3 --> HOME
+  LOG --> HOME
+  subgraph T[Espace locataire · 5 destinations]
+    HOME[Explorer: Accueil] --> MAP[Carte]
+    HOME --> FIL[Filtres]
+    HOME --> RES[Résultats] --> LOAD[Chargement]
+    RES --> EMP[Aucun résultat] --> FIL
+    RES --> ALT[Alternatives proches]
+    RES --> DET[Détail annonce]
+    MAP --> DET
+    DET --> REP[Signalement] --> REPC[Confirmation]
+    DET --> BK[Réservation · Demande]
+    BK -->|409| BKC[Conflit de dates] --> BK
+    BK --> BKS[Demande envoyée] --> BKD[Détail et suivi]
+    BKD --> CANC[Confirmer l'annulation]
+    BKD --> REVW[Avis · Rédaction] --> REVP[Avis publié]
+    DET --> CONV
+    FAV[Favoris] --> DET
+    FAV --> FAVE[État vide]
+    MSG[Messages] --> CONV[Conversation et alerte]
+    MSG --> MSGE[État vide]
+    CONV --> DRAFT[Brouillon non envoyé]
+    CONV --> ADV[Copilot · Conseil privé]
+    PRO[Profil locataire] --> MYB[Mes réservations] --> BKD
+    PRO --> SET[Réglages]
+    PRO --> EDT[Profil · Modifier]
+    PRO --> SWITCH[Changer de rôle]
+  end
+  subgraph C[Copilot · onglet central]
+    CH[Accueil] --> THK[Réflexion] --> CR[Conversation et résultats]
+    CR --> CMP[Comparer 3 logements]
+    CR --> REL[Fiabilité]
+    CR --> NOL[Aucun logement]
+    CH --> CCS[Consentement]
+    CH --> RL[Limite atteinte]
+    CH --> OFF[Hors ligne]
+    ADV --> CCS
+    ADV --> SIMP[Analyse simplifiée]
+  end
+  subgraph S[Réglages]
+    SET --> SG[Langue et aperçu RTL]
+    SET --> SC[Consentements Copilot] --> SR[Révoquer]
+    SET --> SN[Notifications]
+    SET --> SP[Confidentialité]
+    SET --> ST[Conditions]
+    SET --> ACL[Déconnexion]
+    SP --> ACD[Suppression] --> ACS[Compte supprimé]
+  end
+  subgraph O[Espace propriétaire · 4 destinations]
+    SWITCH --> MYL[Mes annonces]
+    MYL --> MYLE[État vide]
+    MYL --> P1[Publication 1 Informations] --> P2[2 Prix] --> P3[3 Détails] --> P4[4 Localisation] --> P5[5 Photos] --> P6[Récapitulatif]
+    P6 --> PRF[Justificatif ajouté] --> V1[Vérification en cours]
+    V1 --> V2[Vérifié automatiquement]
+    V1 --> V3[À compléter]
+    V1 --> V4[Incohérente]
+    MYL --> GP[Gestion publiée]
+    MYL --> GH[Gestion en attente]
+    MYL --> GS[Gestion suspendue]
+    GP --> GE[Mode modification]
+    GP --> GD[Confirmation de suppression]
+    ORQ[Demandes] --> OVL[Chevauchement]
+    ORQ --> ORE[Aucune demande]
+    OMSG[Messages] --> CONV
+    OPRO[Profil propriétaire] --> SET
+  end
+  PERM[Permissions caméra, galerie, localisation] -.-> P5
+  PERM -.-> PRF
+  PERM -.-> MAP
+  ERR[États: sans internet, erreur serveur, session expirée] -.-> LOG

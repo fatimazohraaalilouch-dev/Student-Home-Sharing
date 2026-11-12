@@ -1,0 +1,12 @@
+stateDiagram-v2
+  [*] --> PENDING: dépôt (caméra ou galerie)
+  PENDING --> VERIFIED: cohérent (Vérifié automatiquement)
+  PENDING --> TO_COMPLETE: page manquante ou illisible
+  PENDING --> INCONSISTENT: nom ou adresse non concordants
+  TO_COMPLETE --> PENDING: nouveau dépôt
+  INCONSISTENT --> PENDING: nouveau dépôt
+  VERIFIED --> [*]
+  note right of VERIFIED
+    Cohérence des justificatifs seulement,
+    ni authenticité juridique ni qualité du logement
+  end note

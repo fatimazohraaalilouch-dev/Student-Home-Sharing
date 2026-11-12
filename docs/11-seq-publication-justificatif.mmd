@@ -1,0 +1,28 @@
+sequenceDiagram
+  actor O as Propriétaire
+  participant A as App Android
+  participant API as API
+  participant P as Service intelligence
+  participant DB as PostgreSQL
+  O->>A: étapes 1 à 5 (brouillon auto)
+  A->>API: PATCH /me/listings/{id} (draft_step)
+  O->>A: photo (permission galerie ou caméra)
+  A->>API: POST photos
+  API->>DB: phash de chaque photo
+  O->>A: Soumettre après récapitulatif
+  A->>API: POST /me/listings/{id}/submit
+  API->>DB: statut UNDER_REVIEW
+  O->>A: justificatif
+  A->>API: POST /me/listings/{id}/proof (multipart)
+  API->>API: chiffrer le fichier, calculer file_hash
+  API->>P: POST /internal/proof/verify
+  P-->>API: nom, adresse, score de cohérence
+  API->>P: POST /internal/trust
+  P-->>API: risk_score, level, raisons
+  alt justificatif non incohérent et risque faible ou moyen
+    API->>DB: PUBLISHED
+  else à compléter, incohérent ou risque élevé
+    API->>DB: ON_HOLD
+  end
+  A->>API: GET /me/listings/{id}/proof (statut)
+  API-->>A: Vérifié automatiquement, À compléter ou Incohérente

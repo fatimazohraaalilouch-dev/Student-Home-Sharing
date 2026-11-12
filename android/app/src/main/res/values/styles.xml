@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bouton principal : 52 dp, pilule -->
+    <style name="Widget.Shs.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textAppearance">@style/TextAppearance.Shs.Label</item>
+        <item name="android:textSize">14sp</item>
+        <item name="backgroundTint">@color/shs_teal</item>
+        <item name="android:textColor">@color/shs_on_primary</item>
+        <item name="cornerRadius">@dimen/radius_pill</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+    <!-- Bouton secondaire : contour -->
+    <style name="Widget.Shs.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textColor">@color/shs_teal_accent</item>
+        <item name="strokeColor">@color/shs_outline</item>
+        <item name="cornerRadius">@dimen/radius_pill</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+    <!-- Bouton texte (« Plus tard ») -->
+    <style name="Widget.Shs.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:minHeight">@dimen/touch_target_min</item>
+        <item name="android:textColor">@color/shs_teal_accent</item>
+    </style>
+    <!-- Bouton Copilot : fond dégradé, réservé à Copilot -->
+    <style name="Widget.Shs.Button.Copilot" parent="Widget.Shs.Button.Primary">
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/bg_copilot_gradient</item>
+    </style>
+    <!-- Champ de saisie : rayon 12 dp, contour teal au focus, rouge en erreur -->
+    <style name="Widget.Shs.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">@dimen/radius_field</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_field</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_field</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_field</item>
+        <item name="boxStrokeColor">@color/shs_teal</item>
+        <item name="boxStrokeErrorColor">@color/shs_danger</item>
+        <item name="errorTextColor">@color/shs_danger</item>
+    </style>
+    <!-- Carte : coins 16 dp -->
+    <style name="Widget.Shs.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">@dimen/radius_card</item>
+        <item name="cardElevation">@dimen/elevation_card</item>
+        <item name="cardBackgroundColor">@color/shs_surface</item>
+    </style>
+    <!-- Badges : pilule, texte 12/18 Bold -->
+    <style name="Widget.Shs.Badge" parent="Widget.Material3.Chip.Assist">
+        <item name="chipCornerRadius">@dimen/radius_pill</item>
+        <item name="chipMinHeight">24dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Shs.Label</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="android:clickable">false</item>
+    </style>
+    <style name="Widget.Shs.Badge.Ok" parent="Widget.Shs.Badge">
+        <item name="chipBackgroundColor">@color/shs_badge_ok_bg</item>
+        <item name="android:textColor">@color/shs_badge_ok_text</item>
+    </style>
+    <style name="Widget.Shs.Badge.Warn" parent="Widget.Shs.Badge">
+        <item name="chipBackgroundColor">@color/shs_badge_warn_bg</item>
+        <item name="android:textColor">@color/shs_badge_warn_text</item>
+    </style>
+    <style name="Widget.Shs.Badge.Danger" parent="Widget.Shs.Badge">
+        <item name="chipBackgroundColor">@color/shs_badge_danger_bg</item>
+        <item name="android:textColor">@color/shs_badge_danger_text</item>
+    </style>
+    <style name="Widget.Shs.Badge.Neutral" parent="Widget.Shs.Badge">
+        <item name="chipBackgroundColor">@color/shs_badge_neutral_bg</item>
+        <item name="android:textColor">@color/shs_badge_neutral_text</item>
+    </style>
+    <style name="Widget.Shs.Badge.Done" parent="Widget.Shs.Badge">
+        <item name="chipBackgroundColor">@color/shs_badge_done_bg</item>
+        <item name="android:textColor">@color/shs_badge_done_text</item>
+    </style>
+</resources>

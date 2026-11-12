@@ -1,0 +1,23 @@
+flowchart TB
+  subgraph UI[Présentation]
+    FR[Fragments + layouts XML<br/>ViewBinding]
+    VM[ViewModel<br/>StateFlow UiState]
+    NAV[Navigation Component]
+  end
+  subgraph DOM[Domaine]
+    UC[Use cases]
+    MOD[Modèles métier]
+  end
+  subgraph DATA[Données]
+    REPO[Repositories]
+    NET[Retrofit + OkHttp<br/>Authenticator jeton]
+    LOC[Room: brouillons de messages]
+    SEC[EncryptedSharedPreferences<br/>jetons]
+  end
+  FR --> VM --> UC --> REPO
+  REPO --> NET
+  REPO --> LOC
+  NET --> SEC
+  NAV --- FR
+  HILT{{Hilt: injection}} -.-> VM
+  HILT -.-> REPO

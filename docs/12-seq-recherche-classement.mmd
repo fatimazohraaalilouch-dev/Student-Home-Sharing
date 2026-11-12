@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor L as Locataire
+  participant A as App Android
+  participant API as API
+  participant DB as PostgreSQL + PostGIS
+  participant P as Service intelligence
+  L->>A: filtres + tri
+  A->>API: GET /listings/search
+  API->>DB: contraintes strictes (PUBLISHED, budget, distance, type, équipements)
+  DB-->>API: candidats
+  API->>P: POST /internal/rank (candidats, importances du profil)
+  P-->>API: scores, explications
+  Note over API: risque élevé exclu ; facteur 1,0 faible / 0,9 moyen
+  alt aucun résultat
+    API->>API: assouplir budget de 10 %, puis distance de 50 %
+    API-->>A: résultats avec relaxed=true
+  end
+  API-->>A: liste classée, pourcentage, badges
+  A-->>L: Résultats (ou Aucun résultat)

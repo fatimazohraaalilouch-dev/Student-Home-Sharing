@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph DEV[Appareil Android]
+    APP[App SHS]
+    ROOM[(Room)]
+  end
+  subgraph HOST[Hôte Docker Compose]
+    API[Conteneur Spring Boot :8080]
+    PY[Conteneur FastAPI :8000]
+    DB[(PostgreSQL + PostGIS)]
+    VOL[(Volume chiffré<br/>photos, justificatifs)]
+  end
+  CI[Intégration continue<br/>tests, build] --> HOST
+  APP -->|HTTPS| API
+  API --> DB
+  API --> VOL
+  API -->|réseau interne| PY
+  PY -->|HTTPS| LLM[[LLM externe]]
+  APP -->|tuiles| OSM[[OpenStreetMap]]
