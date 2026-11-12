@@ -1,0 +1,10 @@
+stateDiagram-v2
+  [*] --> REQUESTED: demande (aucun conflit avec une réservation acceptée)
+  REQUESTED --> ACCEPTED: accepté par le propriétaire (transaction, sans chevauchement)
+  REQUESTED --> REFUSED: refusé par le propriétaire
+  REQUESTED --> CANCELLED: annulation du locataire
+  ACCEPTED --> CANCELLED: annulation avant le début du séjour
+  ACCEPTED --> COMPLETED: tâche planifiée à la date de départ
+  COMPLETED --> [*]: avis vérifié possible
+  REFUSED --> [*]
+  CANCELLED --> [*]

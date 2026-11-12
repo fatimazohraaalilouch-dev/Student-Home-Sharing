@@ -1,0 +1,11 @@
+stateDiagram-v2
+  [*] --> DRAFT
+  DRAFT --> UNDER_REVIEW: soumission complète
+  UNDER_REVIEW --> PUBLISHED: justificatif non incohérent et risque faible ou moyen
+  UNDER_REVIEW --> ON_HOLD: justificatif à compléter ou incohérent, ou risque élevé
+  ON_HOLD --> UNDER_REVIEW: le propriétaire complète ou corrige
+  PUBLISHED --> SUSPENDED: signalements au-dessus du seuil ou risque élevé détecté
+  SUSPENDED --> UNDER_REVIEW: correction puis nouvelle demande de contrôle
+  PUBLISHED --> PUBLISHED: modification, re-contrôle prix, photos, adresse
+  PUBLISHED --> [*]: suppression (refusée si réservation acceptée à venir)
+  DRAFT --> [*]: suppression

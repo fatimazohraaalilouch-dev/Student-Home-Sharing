@@ -1,0 +1,65 @@
+erDiagram
+  USER ||--o{ USER_SPACE : possede
+  USER ||--o{ REFRESH_TOKEN : a
+  USER ||--o| TENANT_PROFILE : decrit
+  ESTABLISHMENT ||--o{ TENANT_PROFILE : cible
+  USER ||--o{ LISTING : publie
+  LISTING ||--o{ LISTING_PHOTO : contient
+  LISTING ||--o{ LISTING_AMENITY : offre
+  AMENITY ||--o{ LISTING_AMENITY : catalogue
+  LISTING ||--o{ OWNER_PROOF : justifie
+  LISTING ||--o{ TRUST_SCORE : evalue
+  USER ||--o{ FAVORITE : garde
+  LISTING ||--o{ FAVORITE : cible
+  USER ||--o{ REPORT : signale
+  LISTING ||--o{ REPORT : recoit
+  LISTING ||--o{ BOOKING : recoit
+  USER ||--o{ BOOKING : demande
+  BOOKING ||--o| REVIEW : donne
+  LISTING ||--o{ CONVERSATION : ouvre
+  CONVERSATION ||--o{ MESSAGE : contient
+  USER ||--o{ COPILOT_CONSENT : accorde
+  USER ||--o{ COPILOT_USAGE : consomme
+  USER ||--o{ COPILOT_LOG : audite
+  USER ||--o{ NOTIFICATION_PREFERENCE : regle
+  USER {
+    uuid id PK
+    string email UK
+    string preferred_language
+    string active_space
+    timestamptz deleted_at
+  }
+  LISTING {
+    uuid id PK
+    uuid owner_id FK
+    string type
+    numeric price_monthly
+    string status
+    int draft_step
+    numeric rating_avg
+    int review_count
+  }
+  BOOKING {
+    uuid id PK
+    string reference UK "SH-2026-0128"
+    date start_date
+    date end_date
+    string status
+    numeric service_fee "0 MAD"
+  }
+  OWNER_PROOF {
+    uuid id PK
+    string file_hash
+    string status
+    timestamptz retention_until
+  }
+  TRUST_SCORE {
+    uuid id PK
+    int risk_score
+    string level
+  }
+  COPILOT_CONSENT {
+    uuid id PK
+    string scope
+    timestamptz revoked_at
+  }

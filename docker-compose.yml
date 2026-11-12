@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: shs
+      POSTGRES_USER: shs
+      POSTGRES_PASSWORD: shs_dev
+    ports: ["5432:5432"]
+    volumes: [dbdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shs -d shs"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  intelligence:
+    build: ./intelligence
+    ports: ["8000:8000"]
+  api:
+    build: ./backend
+    depends_on:
+      db: {condition: service_healthy}
+      intelligence: {condition: service_started}
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/shs
+      SPRING_DATASOURCE_USERNAME: shs
+      SPRING_DATASOURCE_PASSWORD: shs_dev
+      SHS_INTELLIGENCE_URL: http://intelligence:8000
+      SHS_JWT_SECRET: change-me-in-dev-only-change-me-in-dev-only
+    ports: ["8080:8080"]
+volumes:
+  dbdata:

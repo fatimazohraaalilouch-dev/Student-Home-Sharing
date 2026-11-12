@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Un seul thème : les couleurs passent par des ressources, values-night fait le reste. -->
+<resources>
+    <style name="Theme.Shs" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/shs_teal</item>
+        <item name="colorOnPrimary">@color/shs_on_primary</item>
+        <item name="colorSecondary">@color/shs_amber</item>
+        <item name="colorError">@color/shs_danger</item>
+        <item name="android:colorBackground">@color/shs_background</item>
+        <item name="colorSurface">@color/shs_surface</item>
+        <item name="colorOnBackground">@color/shs_on_background</item>
+        <item name="colorOnSurface">@color/shs_on_background</item>
+        <item name="colorOnSurfaceVariant">@color/shs_on_surface_variant</item>
+        <item name="colorOutline">@color/shs_outline</item>
+        <item name="android:fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="materialButtonStyle">@style/Widget.Shs.Button.Primary</item>
+        <item name="textInputStyle">@style/Widget.Shs.TextInput</item>
+    </style>
+</resources>

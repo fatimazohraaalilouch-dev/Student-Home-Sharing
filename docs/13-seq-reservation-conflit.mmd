@@ -1,0 +1,23 @@
+sequenceDiagram
+  actor L as Locataire
+  actor O as Propriétaire
+  participant A as App Android
+  participant API as API
+  participant DB as PostgreSQL
+  L->>A: dates + message
+  A->>API: POST /listings/{id}/bookings
+  API->>DB: chevauchement avec une réservation ACCEPTED ?
+  alt conflit
+    API-->>A: 409 BOOKING_DATES_CONFLICT
+    A-->>L: Conflit de dates, choisir d'autres dates
+  else libre
+    API->>DB: créer REQUESTED, référence SH-AAAA-NNNN
+    API-->>A: Demande envoyée
+  end
+  O->>API: POST /bookings/{id}/accept
+  API->>DB: transaction: revérifier chevauchement + passer ACCEPTED
+  alt chevauchement détecté
+    API-->>O: 409, écran Chevauchement
+  else ok
+    API-->>O: acceptée
+  end

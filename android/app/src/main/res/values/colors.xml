@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SHS · Design system · mode clair. Source : planche « DESIGN SYSTEM · Student Home Sharing ». -->
+<resources>
+    <!-- Palette (hex lus sur la planche) -->
+    <color name="shs_teal">#0F766E</color>
+    <color name="shs_teal_accent">#0F766E</color>
+    <color name="shs_amber">#F59E0B</color>
+    <color name="shs_background">#F8FAFC</color>
+    <color name="shs_ok">#247348</color>
+    <color name="shs_danger">#B93838</color>
+    <color name="shs_draft">#667580</color>
+    <!-- Dégradé Copilot : réservé à Copilot -->
+    <color name="shs_copilot_start">#7C3AED</color>
+    <color name="shs_copilot_end">#2563EB</color>
+
+    <!-- Neutres (échantillonnés sur l'image) -->
+    <color name="shs_surface">#FFFFFF</color>
+    <color name="shs_on_background">#142E32</color>
+    <color name="shs_on_surface_variant">#607477</color>
+    <color name="shs_outline">#D7E2E3</color>
+    <color name="shs_disabled_container">#E9EFF0</color>
+    <color name="shs_on_primary">#FFFFFF</color>
+
+    <!-- Badges : fond / texte (échantillonnés) -->
+    <color name="shs_badge_ok_bg">#EAF5EC</color>
+    <color name="shs_badge_ok_text">#247348</color>
+    <color name="shs_badge_warn_bg">#FFF4DC</color>
+    <color name="shs_badge_warn_text">#8A5306</color>
+    <color name="shs_badge_danger_bg">#FFF0EE</color>
+    <color name="shs_badge_danger_text">#B93838</color>
+    <color name="shs_badge_neutral_bg">#EDF1F4</color>
+    <color name="shs_badge_neutral_text">#667580</color>
+    <color name="shs_badge_done_bg">#E5F3EF</color>
+    <color name="shs_badge_done_text">#0F766E</color>
+</resources>

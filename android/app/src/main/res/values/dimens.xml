@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Grille de 4 dp -->
+    <dimen name="space_4">4dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_12">12dp</dimen>
+    <dimen name="space_16">16dp</dimen>
+    <dimen name="space_24">24dp</dimen>
+    <dimen name="space_32">32dp</dimen>
+    <dimen name="screen_margin">24dp</dimen>
+    <!-- Cibles et composants -->
+    <dimen name="touch_target_min">48dp</dimen>
+    <dimen name="button_height">52dp</dimen>
+    <!-- Formes -->
+    <dimen name="radius_card">16dp</dimen>
+    <dimen name="radius_field">12dp</dimen>
+    <dimen name="radius_pill">26dp</dimen>
+    <!-- Ombre douce 0/6/20 : approximée par une élévation, à comparer à la maquette -->
+    <dimen name="elevation_card">6dp</dimen>
+    <!-- Typographie -->
+    <dimen name="text_screen_title">28sp</dimen>
+    <dimen name="text_screen_title_line">34sp</dimen>
+    <dimen name="text_section_title">20sp</dimen>
+    <dimen name="text_section_title_line">28sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_body_line">21sp</dimen>
+    <dimen name="text_label">12sp</dimen>
+    <dimen name="text_label_line">18sp</dimen>
+</resources>

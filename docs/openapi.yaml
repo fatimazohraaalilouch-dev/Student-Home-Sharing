@@ -1,0 +1,719 @@
+openapi: 3.0.3
+info:
+  title: Student Home Sharing API
+  version: 1.0.0
+  description: >
+    Généré à partir du document 02 (v2). Préfixe /api/v1, JSON en camelCase, JWT Bearer
+    sauf routes d'authentification, pagination page (dès 0) et size. Dates en UTC, montants en MAD.
+    Routes /internal/* non publiques (voir section en fin de fichier).
+servers:
+  - url: http://localhost:8080/api/v1
+security:
+  - bearerAuth: []
+tags:
+  - {name: auth}
+  - {name: me}
+  - {name: tenant}
+  - {name: owner}
+  - {name: bookings}
+  - {name: messaging}
+  - {name: copilot}
+paths:
+  /auth/register:
+    post:
+      tags: [auth]
+      security: []
+      summary: Inscription
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/RegisterRequest'}}}}
+      responses:
+        '201': {description: Compte créé, content: {application/json: {schema: {$ref: '#/components/schemas/AuthTokens'}}}}
+        '400': {$ref: '#/components/responses/ValidationError'}
+  /auth/login:
+    post:
+      tags: [auth]
+      security: []
+      summary: Connexion
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/LoginRequest'}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/AuthTokens'}}}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+  /auth/refresh:
+    post:
+      tags: [auth]
+      security: []
+      summary: Renouvellement de session
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [refreshToken], properties: {refreshToken: {type: string}}}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/AuthTokens'}}}}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+  /auth/logout:
+    post:
+      tags: [auth]
+      summary: Déconnexion (révoque le jeton de rafraîchissement)
+      responses: {'204': {description: Déconnecté}}
+  /auth/password-reset:
+    post:
+      tags: [auth]
+      security: []
+      summary: Mot de passe oublié
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [email], properties: {email: {type: string, format: email}}}}}}
+      responses: {'202': {description: Demande acceptée}}
+  /me:
+    get:
+      tags: [me]
+      summary: Profil de l'utilisateur
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/User'}}}}
+    patch:
+      tags: [me]
+      summary: Modifier nom, langue, avatar
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/UserUpdate'}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/User'}}}}
+        '400': {$ref: '#/components/responses/ValidationError'}
+    delete:
+      tags: [me]
+      summary: Suppression du compte (deleted_at puis purge planifiée)
+      responses: {'204': {description: Compte marqué supprimé}}
+  /me/active-space:
+    put:
+      tags: [me]
+      summary: Changer d'espace
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [space], properties: {space: {$ref: '#/components/schemas/Space'}}}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/User'}}}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/spaces:
+    post:
+      tags: [me]
+      summary: Activer l'espace propriétaire
+      responses: {'201': {description: Espace activé}}
+  /me/notification-preferences:
+    get:
+      tags: [me]
+      summary: Lire les réglages de notifications (clés à définir d'après l'écran)
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/NotificationPreference'}}}}}
+    put:
+      tags: [me]
+      summary: Modifier les réglages
+      requestBody: {required: true, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/NotificationPreference'}}}}}
+      responses: {'200': {description: OK}}
+  /establishments:
+    get:
+      tags: [tenant]
+      summary: Recherche d'établissement
+      parameters: [{name: query, in: query, schema: {type: string}}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Establishment'}}}}}
+  /me/tenant-profile:
+    get:
+      tags: [tenant]
+      summary: Profil de recherche
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/TenantProfile'}}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+    put:
+      tags: [tenant]
+      summary: Enregistrer le profil en 3 étapes
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/TenantProfile'}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/TenantProfile'}}}}
+        '400': {$ref: '#/components/responses/ValidationError'}
+  /listings/search:
+    get:
+      tags: [tenant]
+      summary: Recherche et classement
+      parameters:
+        - {name: budgetMin, in: query, schema: {type: number}}
+        - {name: budgetMax, in: query, schema: {type: number}}
+        - {name: maxDistanceKm, in: query, schema: {type: number}}
+        - {name: type, in: query, schema: {type: array, items: {$ref: '#/components/schemas/ListingType'}}}
+        - {name: amenities, in: query, schema: {type: array, items: {$ref: '#/components/schemas/AmenityCode'}}}
+        - {name: furnished, in: query, schema: {type: boolean}}
+        - {name: availableFrom, in: query, schema: {type: string, format: date}}
+        - {name: sort, in: query, schema: {type: string, enum: [COMPATIBILITY, PRICE, DISTANCE], default: COMPATIBILITY}}
+        - {name: bbox, in: query, description: 'minLng,minLat,maxLng,maxLat pour la carte', schema: {type: string}}
+        - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: size, in: query, schema: {type: integer, default: 20}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/SearchResult'}}}}
+  /listings/{id}:
+    get:
+      tags: [tenant]
+      summary: Détail d'une annonce
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/ListingDetail'}}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /listings/{id}/match:
+    get:
+      tags: [tenant]
+      summary: Compatibilité avec le profil connecté
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Match'}}}}
+  /listings/{id}/trust:
+    get:
+      tags: [tenant]
+      summary: Indice de risque et ses raisons (signal de vigilance, jamais une garantie)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Trust'}}}}
+  /listings/{id}/reviews:
+    get:
+      tags: [tenant]
+      summary: Avis vérifiés
+      parameters:
+        - {$ref: '#/components/parameters/Id'}
+        - {name: page, in: query, schema: {type: integer, minimum: 0, default: 0}}
+        - {name: size, in: query, schema: {type: integer, default: 20}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Review'}}}}}
+  /listings/{id}/reports:
+    post:
+      tags: [tenant]
+      summary: Signaler une annonce (un signalement par utilisateur et par annonce)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ReportRequest'}}}}
+      responses:
+        '201': {description: Signalement enregistré}
+        '400': {$ref: '#/components/responses/ValidationError'}
+  /favorites:
+    get:
+      tags: [tenant]
+      summary: Mes favoris
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/ListingCard'}}}}}
+  /favorites/{listingId}:
+    put:
+      tags: [tenant]
+      summary: Ajouter un favori
+      parameters: [{name: listingId, in: path, required: true, schema: {type: string, format: uuid}}]
+      responses: {'204': {description: Ajouté}}
+    delete:
+      tags: [tenant]
+      summary: Retirer un favori
+      parameters: [{name: listingId, in: path, required: true, schema: {type: string, format: uuid}}]
+      responses: {'204': {description: Retiré}}
+  /me/listings:
+    get:
+      tags: [owner]
+      summary: Mes annonces
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/ListingCard'}}}}}
+    post:
+      tags: [owner]
+      summary: Créer un brouillon
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ListingDraft'}}}}
+      responses:
+        '201': {description: Brouillon créé, content: {application/json: {schema: {$ref: '#/components/schemas/ListingDetail'}}}}
+  /me/listings/{id}:
+    get:
+      tags: [owner]
+      summary: Détail de mon annonce
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/ListingDetail'}}}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    patch:
+      tags: [owner]
+      summary: Modifier (enregistrement par étape ; re-contrôle des champs sensibles sans quitter Publiée, suspension si risque élevé)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ListingDraft'}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/ListingDetail'}}}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    delete:
+      tags: [owner]
+      summary: Supprimer (refusé s'il existe une réservation acceptée à venir)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '204': {description: Supprimée}
+        '409': {description: Réservation acceptée à venir, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+  /me/listings/{id}/submit:
+    post:
+      tags: [owner]
+      summary: Soumettre après le récapitulatif
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: Statut UNDER_REVIEW, content: {application/json: {schema: {$ref: '#/components/schemas/ListingDetail'}}}}
+        '422': {description: PROOF_REQUIRED ou annonce incomplète, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+  /me/listings/{id}/photos:
+    post:
+      tags: [owner]
+      summary: Ajouter une photo
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {multipart/form-data: {schema: {type: object, required: [file], properties: {file: {type: string, format: binary}}}}}}
+      responses:
+        '201': {description: Photo ajoutée, content: {application/json: {schema: {$ref: '#/components/schemas/Photo'}}}}
+    delete:
+      tags: [owner]
+      summary: Supprimer une photo
+      parameters:
+        - {$ref: '#/components/parameters/Id'}
+        - {name: photoId, in: query, required: true, schema: {type: string, format: uuid}}
+      responses: {'204': {description: Supprimée}}
+  /me/listings/{id}/photos/order:
+    put:
+      tags: [owner]
+      summary: Réordonner les photos (la première est la couverture)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [photoIds], properties: {photoIds: {type: array, items: {type: string, format: uuid}}}}}}}
+      responses: {'204': {description: OK}}
+  /me/listings/{id}/proof:
+    post:
+      tags: [owner]
+      summary: Dépôt du justificatif (multipart, stockage chiffré)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file, documentType]
+              properties:
+                file: {type: string, format: binary}
+                documentType: {$ref: '#/components/schemas/ProofType'}
+      responses:
+        '202': {description: Vérification lancée, content: {application/json: {schema: {$ref: '#/components/schemas/ProofStatus'}}}}
+    get:
+      tags: [owner]
+      summary: Statut de vérification
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/ProofStatus'}}}}
+  /me/booking-requests:
+    get:
+      tags: [owner]
+      summary: Demandes reçues
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Booking'}}}}}
+  /bookings/{id}/accept:
+    post:
+      tags: [owner]
+      summary: Accepter (vérification du chevauchement et acceptation dans une seule transaction)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Booking'}}}}
+        '409': {$ref: '#/components/responses/DatesConflict'}
+  /bookings/{id}/refuse:
+    post:
+      tags: [owner]
+      summary: Refuser
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Booking'}}}}
+  /listings/{id}/bookings:
+    post:
+      tags: [bookings]
+      summary: Demande de réservation (aucun paiement)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/BookingRequest'}}}}
+      responses:
+        '201': {description: Demandée, content: {application/json: {schema: {$ref: '#/components/schemas/Booking'}}}}
+        '400': {$ref: '#/components/responses/ValidationError'}
+        '409': {$ref: '#/components/responses/DatesConflict'}
+  /me/bookings:
+    get:
+      tags: [bookings]
+      summary: Mes réservations
+      parameters: [{name: scope, in: query, required: true, schema: {type: string, enum: [active, history]}}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Booking'}}}}}
+  /bookings/{id}:
+    get:
+      tags: [bookings]
+      summary: Détail et suivi
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Booking'}}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /bookings/{id}/cancel:
+    post:
+      tags: [bookings]
+      summary: Annuler (tant que le séjour n'a pas commencé)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Booking'}}}}
+  /bookings/{id}/review:
+    post:
+      tags: [bookings]
+      summary: Avis vérifié (réservation COMPLETED, un avis par réservation)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ReviewRequest'}}}}
+      responses:
+        '201': {description: Publié, content: {application/json: {schema: {$ref: '#/components/schemas/Review'}}}}
+        '422': {description: Règle métier non remplie, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+  /conversations:
+    get:
+      tags: [messaging]
+      summary: Liste des conversations
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Conversation'}}}}}
+  /listings/{id}/conversations:
+    post:
+      tags: [messaging]
+      summary: Ouvrir (ou retrouver) la conversation pour une annonce
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Conversation'}}}}
+  /conversations/{id}/messages:
+    get:
+      tags: [messaging]
+      summary: Lire (pagination par curseur ; riskFlags inclus)
+      parameters:
+        - {$ref: '#/components/parameters/Id'}
+        - {name: cursor, in: query, schema: {type: string}}
+        - {name: size, in: query, schema: {type: integer, default: 30}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/MessagePage'}}}}
+    post:
+      tags: [messaging]
+      summary: Envoyer un message
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [content], properties: {content: {type: string}}}}}}
+      responses:
+        '201': {description: Envoyé, content: {application/json: {schema: {$ref: '#/components/schemas/Message'}}}}
+  /conversations/{id}/read:
+    post:
+      tags: [messaging]
+      summary: Marquer comme lu
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses: {'204': {description: OK}}
+  /copilot/consents:
+    get:
+      tags: [copilot]
+      summary: Consentements actifs
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Consent'}}}}}
+  /copilot/consents/{scope}:
+    put:
+      tags: [copilot]
+      summary: Accorder (acte explicite de l'utilisateur)
+      parameters: [{$ref: '#/components/parameters/Scope'}]
+      responses: {'200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Consent'}}}}}
+    delete:
+      tags: [copilot]
+      summary: Révoquer
+      parameters: [{$ref: '#/components/parameters/Scope'}]
+      responses: {'204': {description: Révoqué}}
+  /copilot/chat:
+    post:
+      tags: [copilot]
+      summary: Conversation de découverte
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/CopilotChatRequest'}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/CopilotReply'}}}}
+        '429': {$ref: '#/components/responses/RateLimit'}
+  /copilot/conversations/{id}/advice:
+    post:
+      tags: [copilot]
+      summary: Conseil privé sur une conversation (consentement requis)
+      parameters: [{$ref: '#/components/parameters/Id'}]
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/Advice'}}}}
+        '422': {description: CONSENT_REQUIRED, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+        '429': {$ref: '#/components/responses/RateLimit'}
+  /copilot/compare:
+    post:
+      tags: [copilot]
+      summary: Comparer 3 logements
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [listingIds], properties: {listingIds: {type: array, minItems: 3, maxItems: 3, items: {type: string, format: uuid}}}}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/CopilotReply'}}}}
+        '429': {$ref: '#/components/responses/RateLimit'}
+  /copilot/reliability:
+    post:
+      tags: [copilot]
+      summary: Fiabilité d'une annonce
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [listingId], properties: {listingId: {type: string, format: uuid}}}}}}
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {$ref: '#/components/schemas/CopilotReply'}}}}
+        '429': {$ref: '#/components/responses/RateLimit'}
+  /copilot/quota:
+    get:
+      tags: [copilot]
+      summary: État de la limite
+      responses:
+        '200': {description: OK, content: {application/json: {schema: {type: object, properties: {remaining: {type: integer}, windowResetAt: {type: string, format: date-time}}}}}}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
+  parameters:
+    Id: {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+    Scope: {name: scope, in: path, required: true, schema: {$ref: '#/components/schemas/ConsentScope'}}
+  responses:
+    ValidationError: {description: VALIDATION_ERROR, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+    Unauthorized: {description: INVALID_CREDENTIALS ou SESSION_EXPIRED, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+    Forbidden: {description: FORBIDDEN, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+    NotFound: {description: NOT_FOUND, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+    DatesConflict: {description: BOOKING_DATES_CONFLICT, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+    RateLimit: {description: COPILOT_RATE_LIMIT avec retryAfterSeconds, content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}}
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code: {type: string, enum: [VALIDATION_ERROR, INVALID_CREDENTIALS, SESSION_EXPIRED, FORBIDDEN, NOT_FOUND, BOOKING_DATES_CONFLICT, CONSENT_REQUIRED, PROOF_REQUIRED, COPILOT_RATE_LIMIT, SERVER_ERROR]}
+        message: {type: string}
+        details: {type: object, additionalProperties: true, description: 'Par champ pour VALIDATION_ERROR ; retryAfterSeconds pour COPILOT_RATE_LIMIT'}
+    Space: {type: string, enum: [TENANT, OWNER]}
+    ListingType: {type: string, enum: [ROOM, STUDIO, APARTMENT, SHARED_ROOM]}
+    ListingStatus: {type: string, enum: [DRAFT, UNDER_REVIEW, PUBLISHED, ON_HOLD, SUSPENDED]}
+    ProofType: {type: string, enum: [TITLE_DEED, PURCHASE_CONTRACT, LEASE_WITH_SUBLET_AUTH, POWER_OF_ATTORNEY]}
+    ProofState: {type: string, enum: [PENDING, VERIFIED, TO_COMPLETE, INCONSISTENT]}
+    BookingStatus: {type: string, enum: [REQUESTED, ACCEPTED, REFUSED, CANCELLED, COMPLETED]}
+    ReportReason: {type: string, enum: [DUPLICATE, SUSPICIOUS_PRICE, FAKE_PHOTOS, PAYMENT_OUTSIDE_PLATFORM, OTHER], description: À confronter à l'écran de signalement}
+    TrustLevel: {type: string, enum: [LOW, MEDIUM, HIGH]}
+    ConsentScope: {type: string, enum: [CONVERSATION_ANALYSIS, AUTO_SUGGESTIONS]}
+    MessageFlag: {type: string, enum: [DEPOSIT_BEFORE_VISIT, PAYMENT_OFF_PLATFORM, PRESSURE, PRICE_CHANGE]}
+    AmenityCode: {type: string, enum: [WIFI, HOT_WATER, KITCHEN, WASHER, DESK, AIR_CONDITIONING]}
+    AuthTokens:
+      type: object
+      required: [accessToken, refreshToken]
+      properties:
+        accessToken: {type: string}
+        refreshToken: {type: string}
+        user: {$ref: '#/components/schemas/User'}
+    RegisterRequest:
+      type: object
+      required: [email, password, fullName]
+      properties:
+        email: {type: string, format: email}
+        password: {type: string, format: password}
+        fullName: {type: string}
+        phone: {type: string}
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: {type: string, format: email}
+        password: {type: string, format: password}
+    User:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        email: {type: string, format: email}
+        fullName: {type: string}
+        phone: {type: string}
+        avatarUrl: {type: string, nullable: true}
+        preferredLanguage: {type: string, enum: [fr, ar, en]}
+        activeSpace: {$ref: '#/components/schemas/Space'}
+        spaces: {type: array, items: {$ref: '#/components/schemas/Space'}}
+    UserUpdate:
+      type: object
+      properties:
+        fullName: {type: string}
+        avatarUrl: {type: string}
+        preferredLanguage: {type: string, enum: [fr, ar, en]}
+    NotificationPreference:
+      type: object
+      required: [key, enabled]
+      properties: {key: {type: string}, enabled: {type: boolean}}
+    Establishment:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        name: {type: string}
+        universityName: {type: string}
+        addressText: {type: string}
+        city: {type: string}
+        latitude: {type: number}
+        longitude: {type: number}
+    TenantProfile:
+      type: object
+      required: [establishmentId, budgetMax, maxDistanceKm]
+      properties:
+        establishmentId: {type: string, format: uuid}
+        budgetMin: {type: number, nullable: true, description: Non saisi dans le profil (décision 4)}
+        budgetMax: {type: number}
+        maxDistanceKm: {type: number}
+        preferredTypes: {type: array, items: {$ref: '#/components/schemas/ListingType'}}
+        requiredAmenities: {type: array, items: {$ref: '#/components/schemas/AmenityCode'}}
+        importanceBudget: {type: integer, minimum: 0, maximum: 100}
+        importanceDistance: {type: integer, minimum: 0, maximum: 100}
+        importanceAmenities: {type: integer, minimum: 0, maximum: 100}
+        importanceRating: {type: integer, minimum: 0, maximum: 100}
+    Photo:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        url: {type: string}
+        position: {type: integer}
+        isCover: {type: boolean}
+    ListingDraft:
+      type: object
+      properties:
+        title: {type: string}
+        description: {type: string}
+        type: {$ref: '#/components/schemas/ListingType'}
+        priceMonthly: {type: number}
+        chargesIncluded: {type: boolean}
+        depositAmount: {type: number}
+        availableFrom: {type: string, format: date}
+        surfaceM2: {type: number}
+        bedrooms: {type: integer}
+        furnished: {type: boolean}
+        amenities: {type: array, items: {$ref: '#/components/schemas/AmenityCode'}}
+        addressText: {type: string}
+        city: {type: string}
+        latitude: {type: number}
+        longitude: {type: number}
+        draftStep: {type: integer, minimum: 1, maximum: 6}
+    ListingCard:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        title: {type: string}
+        type: {$ref: '#/components/schemas/ListingType'}
+        priceMonthly: {type: number}
+        city: {type: string}
+        distanceKm: {type: number}
+        coverUrl: {type: string}
+        status: {$ref: '#/components/schemas/ListingStatus'}
+        proofStatus: {$ref: '#/components/schemas/ProofState'}
+        riskLevel: {$ref: '#/components/schemas/TrustLevel'}
+        compatibilityPercent: {type: integer, minimum: 0, maximum: 100}
+        rank: {type: integer}
+        ratingAvg: {type: number}
+        reviewCount: {type: integer}
+    ListingDetail:
+      allOf:
+        - $ref: '#/components/schemas/ListingCard'
+        - type: object
+          properties:
+            description: {type: string}
+            chargesIncluded: {type: boolean}
+            depositAmount: {type: number}
+            availableFrom: {type: string, format: date}
+            surfaceM2: {type: number}
+            bedrooms: {type: integer}
+            furnished: {type: boolean}
+            amenities: {type: array, items: {$ref: '#/components/schemas/AmenityCode'}}
+            photos: {type: array, items: {$ref: '#/components/schemas/Photo'}}
+            addressText: {type: string}
+            latitude: {type: number}
+            longitude: {type: number}
+            draftStep: {type: integer}
+    SearchResult:
+      type: object
+      properties:
+        items: {type: array, items: {$ref: '#/components/schemas/ListingCard'}}
+        page: {type: integer}
+        size: {type: integer}
+        total: {type: integer}
+        relaxed: {type: string, nullable: true, enum: [BUDGET, DISTANCE], description: Critère assoupli, à annoncer clairement}
+    Match:
+      type: object
+      properties:
+        compatibilityPercent: {type: integer}
+        strengths: {type: array, items: {type: string}}
+        cautions: {type: array, items: {type: string}}
+    Trust:
+      type: object
+      properties:
+        riskScore: {type: integer, minimum: 0, maximum: 100}
+        level: {$ref: '#/components/schemas/TrustLevel'}
+        passedChecks: {type: array, items: {type: string}}
+        attentionPoints: {type: array, items: {type: string}}
+        computedAt: {type: string, format: date-time}
+    ProofStatus:
+      type: object
+      properties:
+        status: {$ref: '#/components/schemas/ProofState'}
+        reason: {type: string, nullable: true}
+        submittedAt: {type: string, format: date-time}
+        verifiedAt: {type: string, format: date-time, nullable: true}
+    ReportRequest:
+      type: object
+      required: [reason]
+      properties:
+        reason: {$ref: '#/components/schemas/ReportReason'}
+        details: {type: string}
+    BookingRequest:
+      type: object
+      required: [startDate, endDate]
+      properties:
+        startDate: {type: string, format: date}
+        endDate: {type: string, format: date}
+        message: {type: string}
+    Booking:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        reference: {type: string, example: SH-2026-0128}
+        listing: {$ref: '#/components/schemas/ListingCard'}
+        startDate: {type: string, format: date}
+        endDate: {type: string, format: date}
+        message: {type: string}
+        status: {$ref: '#/components/schemas/BookingStatus'}
+        monthlyPrice: {type: number}
+        serviceFee: {type: number, example: 0}
+        totalEstimated: {type: number}
+        canReview: {type: boolean}
+        createdAt: {type: string, format: date-time}
+    ReviewRequest:
+      type: object
+      required: [rating]
+      properties:
+        rating: {type: integer, minimum: 1, maximum: 5}
+        comment: {type: string}
+    Review:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        rating: {type: integer, minimum: 1, maximum: 5}
+        comment: {type: string}
+        authorName: {type: string}
+        createdAt: {type: string, format: date-time}
+    Conversation:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        listing: {$ref: '#/components/schemas/ListingCard'}
+        lastMessageAt: {type: string, format: date-time}
+        unreadCount: {type: integer}
+        typicalReplyHours: {type: integer, nullable: true}
+    Message:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        senderId: {type: string, format: uuid}
+        content: {type: string}
+        sentAt: {type: string, format: date-time}
+        readAt: {type: string, format: date-time, nullable: true}
+        riskFlags: {type: array, items: {$ref: '#/components/schemas/MessageFlag'}}
+    MessagePage:
+      type: object
+      properties:
+        items: {type: array, items: {$ref: '#/components/schemas/Message'}}
+        nextCursor: {type: string, nullable: true}
+    Consent:
+      type: object
+      properties:
+        scope: {$ref: '#/components/schemas/ConsentScope'}
+        grantedAt: {type: string, format: date-time}
+        revokedAt: {type: string, format: date-time, nullable: true}
+    CopilotChatRequest:
+      type: object
+      required: [message]
+      properties: {message: {type: string}}
+    CopilotReply:
+      type: object
+      properties:
+        text: {type: string}
+        listings: {type: array, items: {$ref: '#/components/schemas/ListingCard'}}
+        certainty: {type: string, enum: [LOW, MEDIUM, HIGH]}
+        disclaimer: {type: string, example: Copilot peut se tromper. Vérifiez les informations avant de vous engager.}
+    Advice:
+      type: object
+      properties:
+        summary: {type: string}
+        attentionPoints: {type: array, items: {type: string}}
+        certainty: {type: string, enum: [LOW, MEDIUM, HIGH]}
+        suggestedReply: {type: string, description: Modifiable ; jamais envoyée automatiquement}
+        options: {type: array, items: {type: string}, description: 'poursuivre, demander des précisions, arrêter l''échange'}
+# Services internes non publics (hors de ce contrat client) :
+#   POST /internal/rank, /internal/trust, /internal/proof/verify, /internal/copilot/run

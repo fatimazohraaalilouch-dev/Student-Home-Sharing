@@ -1,0 +1,23 @@
+sequenceDiagram
+  actor U as Utilisateur
+  participant A as App Android
+  participant API as API Spring Boot
+  participant DB as PostgreSQL
+  U->>A: e-mail + mot de passe
+  A->>API: POST /auth/login
+  API->>DB: user par e-mail, vérif. hash
+  alt identifiants invalides
+    API-->>A: 401 INVALID_CREDENTIALS
+    A-->>U: écran Identifiants invalides
+  else valide
+    API->>DB: créer refresh_token (hash, appareil)
+    API-->>A: accessToken court + refreshToken
+    A->>A: EncryptedSharedPreferences
+    A-->>U: Explorer (ou Profil si pas de profil de recherche)
+  end
+  Note over A,API: plus tard, jeton expiré
+  A->>API: POST /auth/refresh
+  alt refresh échoue
+    API-->>A: 401 SESSION_EXPIRED
+    A-->>U: écran Session expirée, reconnexion, brouillons conservés
+  end

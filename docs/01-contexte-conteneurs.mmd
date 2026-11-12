@@ -1,0 +1,18 @@
+flowchart LR
+  T([Locataire]) --> APP
+  O([Propriétaire]) --> APP
+  subgraph SHS[Student Home Sharing]
+    APP[App Android<br/>Kotlin, vues XML, MVVM]
+    API[API REST /api/v1<br/>Spring Boot, JWT]
+    DB[(PostgreSQL + PostGIS)]
+    FILES[(Stockage chiffré<br/>photos, justificatifs)]
+    INTEL[Service intelligence<br/>FastAPI: classement, risque,<br/>justificatif, Copilot]
+  end
+  APP -->|HTTPS JSON| API
+  API --> DB
+  API --> FILES
+  API -->|/internal/*| INTEL
+  INTEL -->|fonctions métier| API
+  INTEL --> LLM[[LLM externe]]
+  APP -->|tuiles| OSM[[OpenStreetMap]]
+  APP -.->|brouillons| ROOM[(Room local)]

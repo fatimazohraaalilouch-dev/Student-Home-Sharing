@@ -1,0 +1,24 @@
+flowchart LR
+  T([Locataire]):::a
+  O([Propriétaire]):::a
+  subgraph SHS[Student Home Sharing]
+    direction TB
+    U1(S'inscrire, se connecter, choisir langue et rôle)
+    U2(Créer son profil de recherche)
+    U3(Rechercher, filtrer, voir résultats classés)
+    U4(Consulter un détail, compatibilité, indice de risque)
+    U5(Favori, signalement)
+    U6(Demander, suivre, annuler une réservation)
+    U7(Publier un avis vérifié)
+    U8(Publier une annonce en 5 étapes)
+    U9(Déposer un justificatif)
+    U10(Gérer ses annonces)
+    U11(Accepter ou refuser une demande)
+    U12(Échanger par messagerie)
+    U13(Demander conseil à Copilot)
+    U14(Régler consentements, langue, notifications)
+    U15(Supprimer son compte)
+  end
+  T --- U1 & U2 & U3 & U4 & U5 & U6 & U7 & U12 & U13 & U14 & U15
+  O --- U1 & U8 & U9 & U10 & U11 & U12 & U14 & U15
+  classDef a fill:#E5F3EF,stroke:#0F766E

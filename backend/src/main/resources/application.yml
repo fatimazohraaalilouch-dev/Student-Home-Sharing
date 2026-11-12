@@ -1,0 +1,22 @@
+server:
+  servlet:
+    context-path: /api/v1
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/shs}
+    username: ${SPRING_DATASOURCE_USERNAME:shs}
+    password: ${SPRING_DATASOURCE_PASSWORD:shs_dev}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+shs:
+  intelligence-url: ${SHS_INTELLIGENCE_URL:http://localhost:8000}
+  jwt-secret: ${SHS_JWT_SECRET:}

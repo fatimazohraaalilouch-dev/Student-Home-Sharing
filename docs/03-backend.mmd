@@ -1,0 +1,18 @@
+flowchart TB
+  CL[App Android] -->|Bearer JWT| SEC[Filtre sécurité<br/>JWT, autorisations]
+  subgraph SB[Spring Boot]
+    SEC --> CTRL[Contrôleurs /api/v1<br/>auth, me, listings, bookings,<br/>conversations, copilot]
+    CTRL --> SVC[Services métier<br/>statuts, réservation transactionnelle,<br/>avis, signaux d'alerte]
+    SVC --> REPO[Repositories JPA]
+    SVC --> STORE[Stockage fichiers chiffré]
+    SVC --> JOB[Tâches planifiées<br/>réservation Terminée, purge comptes]
+    SVC --> IC[Client service intelligence]
+  end
+  REPO --> DB[(PostgreSQL + PostGIS)]
+  IC -->|/internal/rank, trust,<br/>proof/verify, copilot/run| PY
+  subgraph PY[FastAPI]
+    RANK[Classement multicritère]
+    TRUST[Indice de risque<br/>TF-IDF, phash, prix, règles]
+    PROOF[Justificatif: OCR + cohérence]
+    COP[Copilot: appels de fonctions,<br/>garde-fous, journal]
+  end

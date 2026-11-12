@@ -1,0 +1,26 @@
+sequenceDiagram
+  actor L as Locataire
+  participant A as App Android
+  participant API as API
+  participant P as Service intelligence
+  participant LLM as LLM
+  L->>A: Demander conseil au Copilot (bandeau d'alerte)
+  A->>API: POST /copilot/conversations/{id}/advice
+  API->>API: consentement CONVERSATION_ANALYSIS actif ?
+  alt pas de consentement
+    API-->>A: 422 CONSENT_REQUIRED
+    A-->>L: écran Consentement (Autoriser / Pas maintenant)
+    L->>A: Autoriser
+    A->>API: PUT /copilot/consents/CONVERSATION_ANALYSIS
+    A->>API: nouvelle demande de conseil
+  end
+  API->>API: quota ? (429 COPILOT_RATE_LIMIT, retryAfterSeconds)
+  API->>P: POST /internal/copilot/run (messages = données non fiables)
+  P->>LLM: instructions + fonctions autorisées
+  LLM-->>P: appel analyze_conversation / suggest_reply
+  P->>API: fonctions métier (journalisées, sans contenu)
+  P-->>API: certitude, points d'attention, réponse suggérée
+  API-->>A: conseil privé
+  A-->>L: Conseil privé (signal de risque, pas une conclusion)
+  L->>A: Utiliser ce brouillon
+  A->>A: remplit le champ, aucun envoi automatique

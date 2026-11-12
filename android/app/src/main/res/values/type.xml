@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.Shs.ScreenTitle" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:textFontWeight">800</item>
+        <item name="android:textSize">@dimen/text_screen_title</item>
+        <item name="android:lineHeight">@dimen/text_screen_title_line</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+    <style name="TextAppearance.Shs.SectionTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textSize">@dimen/text_section_title</item>
+        <item name="android:lineHeight">@dimen/text_section_title_line</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+    <style name="TextAppearance.Shs.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:lineHeight">@dimen/text_body_line</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+    <style name="TextAppearance.Shs.Label" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">@font/plus_jakarta_sans</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textSize">@dimen/text_label</item>
+        <item name="android:lineHeight">@dimen/text_label_line</item>
+    </style>
+</resources>
