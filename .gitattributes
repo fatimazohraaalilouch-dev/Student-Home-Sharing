@@ -1,0 +1,7 @@
+# Fins de ligne : LF partout (sinon gradlew et les scripts .sh cassent sous Linux/CI quand on commite depuis Windows)
+* text=auto eol=lf
+*.bat text eol=crlf
+*.jar binary
+*.ttf binary
+*.png binary
+*.jpg binary
