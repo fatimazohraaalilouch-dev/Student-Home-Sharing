@@ -68,7 +68,8 @@ jobs:
               done: option("Done")
             };
             if (Object.values(options).some(x => !x)) {
-              core.setFailed(`Le champ Status du projet "${project.title}" doit contenir exactement les options To do, In Progress et Done.`);
+              core.info("PROJECT_FIELDS=" + JSON.stringify(project.fields.nodes.map(f => ({name:f.name, options:f.options?.map(o=>o.name) || []}))));
+              core.setFailed("Options de statut incompatibles. Consulte PROJECT_FIELDS dans les journaux.");
               return;
             }
 
