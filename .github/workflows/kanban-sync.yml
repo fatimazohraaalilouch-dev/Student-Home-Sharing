@@ -61,7 +61,7 @@ jobs:
               return;
             }
             const statusField = project.fields.nodes.find(f => f.name === "Status" && f.options);
-            const option = name => statusField.options.find(o => o.name.toLowerCase() === name.toLowerCase());
+            const option = name => statusField.options.find(o => o.name.trim().toLowerCase() === name.trim().toLowerCase());
             const options = {
               todo: option("To do"),
               progress: option("In Progress"),
