@@ -51,7 +51,7 @@ jobs:
                   }
                 }
                 repository(owner: $owner, name: $repo) {
-                  issues(first: 100, states: [OPEN, CLOSED]) { nodes { number state body title } }
+                  issues(first: 100, states: [OPEN, CLOSED]) { nodes { id number state body title } }
                 }
               }`;
             const data = await github.graphql(projectQuery, { owner, repo });
@@ -61,9 +61,9 @@ jobs:
               return;
             }
             const statusField = project.fields.nodes.find(f => f.name === "Status" && f.options);
-            const option = name => statusField.options.find(o => o.name.trim().toLowerCase() === name.trim().toLowerCase());
+            const option = (...names) => statusField.options.find(o => names.some(name => o.name.trim().toLowerCase() === name.trim().toLowerCase()));
             const options = {
-              todo: option("To do"),
+              todo: option("To do", "Todo"),
               progress: option("In Progress"),
               done: option("Done")
             };
@@ -78,6 +78,17 @@ jobs:
               if (item.content?.number) itemByIssue.set(item.content.number, item.id);
             }
             const issues = data.repository.issues.nodes;
+            // Ajouter au projet personnel existant les issues qui n'y figurent pas encore.
+            for (const issue of issues) {
+              if (!itemByIssue.has(issue.number)) {
+                const added = await github.graphql(`
+                  mutation($project: ID!, $content: ID!) {
+                    addProjectV2ItemById(input: {projectId: $project, contentId: $content}) { item { id } }
+                  }`, { project: project.id, content: issue.id });
+                itemByIssue.set(issue.number, added.addProjectV2ItemById.item.id);
+                core.info(`Issue #${issue.number} ajoutée au projet existant.`);
+              }
+            }
 
             function section(body, heading) {
               const start = body.indexOf(heading);
