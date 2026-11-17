@@ -31,64 +31,34 @@ jobs:
       - name: Synchroniser le tableau GitHub Projects existant
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.PROJECTS_TOKEN || github.token }}
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const event = context.eventName;
             const payload = context.payload;
 
+            // Projet personnel /users/<login>/projects/1 : chercher dans user.projectsV2.
             const projectQuery = `
               query($owner: String!, $repo: String!) {
-                repository(owner: $owner, name: $repo) {
-                  projectsV2(first: 30) {
-                    nodes {
-                      id
-                      title
-                      fields(first: 50) {
-                        nodes {
-                          ... on ProjectV2SingleSelectField {
-                            id
-                            name
-                            options { id name }
-                          }
-                        }
-                      }
-                      items(first: 100) {
-                        nodes {
-                          id
-                          content {
-                            ... on Issue { number state body title }
-                          }
-                        }
-                      }
+                user(login: $owner) {
+                  projectsV2(first: 100) {
+                    nodes { id number title
+                      fields(first: 50) { nodes { ... on ProjectV2SingleSelectField { id name options { id name } } } }
+                      items(first: 100) { nodes { id content { ... on Issue { number state body title } } } }
                     }
                   }
-                  issues(first: 100, states: [OPEN, CLOSED]) {
-                    nodes { number state body title }
-                  }
+                }
+                repository(owner: $owner, name: $repo) {
+                  issues(first: 100, states: [OPEN, CLOSED]) { nodes { number state body title } }
                 }
               }`;
             const data = await github.graphql(projectQuery, { owner, repo });
-            const projects = data.repository.projectsV2.nodes
-              .filter(p => p.fields.nodes.some(f => f.name === "Status" && f.options));
-            if (!projects.length) {
-              core.setFailed("Aucun GitHub Project V2 lié à ce dépôt n'a été trouvé. Aucun projet n'a été créé.");
+            const project = data.user?.projectsV2?.nodes?.find(p => p.number === 1);
+            if (!project) {
+              core.setFailed('Projet personnel #1 introuvable ou inaccessible avec le jeton configuré.');
               return;
             }
-
-            const preferredTitle = process.env.KANBAN_PROJECT_TITLE || "";
-            let project;
-            if (preferredTitle) {
-              project = projects.find(p => p.title === preferredTitle);
-              if (!project) {
-                core.setFailed(`Le projet configuré "${preferredTitle}" est introuvable parmi les projets liés au dépôt.`);
-                return;
-              }
-            } else {
-              project = projects.sort((a, b) => b.items.nodes.filter(x => x.content?.number).length -
-                                               a.items.nodes.filter(x => x.content?.number).length)[0];
-            }
-
             const statusField = project.fields.nodes.find(f => f.name === "Status" && f.options);
             const option = name => statusField.options.find(o => o.name.toLowerCase() === name.toLowerCase());
             const options = {
@@ -188,8 +158,9 @@ jobs:
                 referencedNumbers.has(i.number) || codes(i).some(c => referencedCodes.has(c))
               );
               for (const issue of matched) {
-                if (merged) await setStatus(issue, "done", `PR #${pr.number} fusionnée`);
+                if (issue.state === "CLOSED") await setStatus(issue, "done", `issue fermée après PR #${pr.number}`);
                 else if (payload.action !== "closed") await setStatus(issue, "progress", `PR #${pr.number} active`);
+                else if (merged) await setStatus(issue, "progress", `PR #${pr.number} fusionnée, issue encore ouverte`);
               }
               core.info(`PR #${pr.number}: ${matched.length} issue(s) liée(s) identifiée(s).`);
               return;
