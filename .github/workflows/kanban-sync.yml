@@ -1,4 +1,5 @@
 name: Kanban status sync
+# Backfill trigger: verify existing Project #1 after PROJECTS_TOKEN setup.
 
 on:
   issues:
