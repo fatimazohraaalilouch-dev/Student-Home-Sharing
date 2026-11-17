@@ -1,0 +1,208 @@
+name: Kanban status sync
+
+on:
+  issues:
+    types: [opened, reopened, closed, edited]
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  push:
+    branches: ["**"]
+  workflow_dispatch:
+    inputs:
+      backfill:
+        description: "Recalculer le statut de toutes les issues existantes"
+        required: false
+        default: "true"
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+  repository-projects: write
+
+concurrency:
+  group: kanban-sync-${{ github.event.repository.name }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Synchroniser le tableau GitHub Projects existant
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const event = context.eventName;
+            const payload = context.payload;
+
+            const projectQuery = `
+              query($owner: String!, $repo: String!) {
+                repository(owner: $owner, name: $repo) {
+                  projectsV2(first: 30) {
+                    nodes {
+                      id
+                      title
+                      fields(first: 50) {
+                        nodes {
+                          ... on ProjectV2SingleSelectField {
+                            id
+                            name
+                            options { id name }
+                          }
+                        }
+                      }
+                      items(first: 100) {
+                        nodes {
+                          id
+                          content {
+                            ... on Issue { number state body title }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  issues(first: 100, states: [OPEN, CLOSED]) {
+                    nodes { number state body title }
+                  }
+                }
+              }`;
+            const data = await github.graphql(projectQuery, { owner, repo });
+            const projects = data.repository.projectsV2.nodes
+              .filter(p => p.fields.nodes.some(f => f.name === "Status" && f.options));
+            if (!projects.length) {
+              core.setFailed("Aucun GitHub Project V2 lié à ce dépôt n'a été trouvé. Aucun projet n'a été créé.");
+              return;
+            }
+
+            const preferredTitle = process.env.KANBAN_PROJECT_TITLE || "";
+            let project;
+            if (preferredTitle) {
+              project = projects.find(p => p.title === preferredTitle);
+              if (!project) {
+                core.setFailed(`Le projet configuré "${preferredTitle}" est introuvable parmi les projets liés au dépôt.`);
+                return;
+              }
+            } else {
+              project = projects.sort((a, b) => b.items.nodes.filter(x => x.content?.number).length -
+                                               a.items.nodes.filter(x => x.content?.number).length)[0];
+            }
+
+            const statusField = project.fields.nodes.find(f => f.name === "Status" && f.options);
+            const option = name => statusField.options.find(o => o.name.toLowerCase() === name.toLowerCase());
+            const options = {
+              todo: option("To do"),
+              progress: option("In Progress"),
+              done: option("Done")
+            };
+            if (Object.values(options).some(x => !x)) {
+              core.setFailed(`Le champ Status du projet "${project.title}" doit contenir exactement les options To do, In Progress et Done.`);
+              return;
+            }
+
+            const itemByIssue = new Map();
+            for (const item of project.items.nodes) {
+              if (item.content?.number) itemByIssue.set(item.content.number, item.id);
+            }
+            const issues = data.repository.issues.nodes;
+
+            function section(body, heading) {
+              const start = body.indexOf(heading);
+              if (start < 0) return "";
+              const rest = body.slice(start + heading.length);
+              const next = rest.search(/\n##?\s/);
+              return next < 0 ? rest : rest.slice(0, next);
+            }
+            function calculate(issue) {
+              if (issue.state === "CLOSED") return "done";
+              const todo = section(issue.body || "", "## À faire");
+              const acceptance = section(issue.body || "", "## Critères d'acceptation");
+              const checks = [...(todo + "\n" + acceptance).matchAll(/^\s*-\s*\[([ xX])\]/gm)];
+              const checked = checks.filter(m => m[1].toLowerCase() === "x").length;
+              if (checks.length > 0 && checked === checks.length) return "done";
+              if (checked > 0) return "progress";
+              return "todo";
+            }
+
+            async function setStatus(issue, desired, reason) {
+              const itemId = itemByIssue.get(issue.number);
+              if (!itemId) {
+                core.info(`Issue #${issue.number} absente du projet "${project.title}" : ignorée (aucun ajout automatique au tableau).`);
+                return;
+              }
+              const current = calculate(issue);
+              const target = options[desired];
+              await github.graphql(`
+                mutation($project: ID!, $item: ID!, $field: ID!, $value: String!) {
+                  updateProjectV2ItemFieldValue(input: {
+                    projectId: $project,
+                    itemId: $item,
+                    fieldId: $field,
+                    value: { singleSelectOptionId: $value }
+                  }) { projectV2Item { id } }
+                }`, {
+                  project: project.id,
+                  item: itemId,
+                  field: statusField.id,
+                  value: target.id
+                });
+              core.info(`#${issue.number} → ${target.name} (${reason})`);
+            }
+
+            const byNumber = new Map(issues.map(i => [i.number, i]));
+            const codes = issue => ((issue.title || "") + " " + (issue.body || ""))
+              .match(/S[1-4]-[A-Z0-9]+/g) || [];
+            const referencedNumbers = new Set();
+            const referencedCodes = new Set();
+            const addRefs = text => {
+              for (const m of (text || "").matchAll(/#(\d+)/g)) referencedNumbers.add(Number(m[1]));
+              for (const m of (text || "").matchAll(/S[1-4]-[A-Z0-9]+/g)) referencedCodes.add(m[0]);
+            };
+
+            const isBackfill = event === "workflow_dispatch" ||
+              (event === "push" && (payload.commits || []).some(c => (c.message || "").includes("[kanban-backfill]")));
+
+            if (isBackfill) {
+              for (const issue of issues) await setStatus(issue, calculate(issue), "initialisation / recalcul");
+              core.info(`Recalcul terminé pour ${issues.length} issues visibles dans le dépôt.`);
+              return;
+            }
+
+            if (event === "issues") {
+              const issue = payload.issue;
+              const key = issue.state === "closed" ? "done" : calculate({
+                state: issue.state.toUpperCase(),
+                body: issue.body,
+                title: issue.title
+              });
+              await setStatus(issue, key, `événement issue: ${payload.action}`);
+              return;
+            }
+
+            if (event === "pull_request") {
+              const pr = payload.pull_request;
+              addRefs(pr.title + "\n" + (pr.body || "") + "\n" + pr.head.ref);
+              const merged = payload.action === "closed" && pr.merged;
+              const matched = issues.filter(i =>
+                referencedNumbers.has(i.number) || codes(i).some(c => referencedCodes.has(c))
+              );
+              for (const issue of matched) {
+                if (merged) await setStatus(issue, "done", `PR #${pr.number} fusionnée`);
+                else if (payload.action !== "closed") await setStatus(issue, "progress", `PR #${pr.number} active`);
+              }
+              core.info(`PR #${pr.number}: ${matched.length} issue(s) liée(s) identifiée(s).`);
+              return;
+            }
+
+            if (event === "push") {
+              addRefs(payload.ref);
+              for (const commit of payload.commits || []) addRefs(commit.message);
+              const matched = issues.filter(i =>
+                referencedNumbers.has(i.number) || codes(i).some(c => referencedCodes.has(c))
+              );
+              for (const issue of matched) {
+                if (issue.state !== "CLOSED") await setStatus(issue, "progress", "push / commit lié");
+              }
+              core.info(`Push: ${matched.length} issue(s) liée(s) identifiée(s).`);
+            }
