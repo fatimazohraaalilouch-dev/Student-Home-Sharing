@@ -1,0 +1,5 @@
+# Profil "test" : s'ajoute à application.yml (ne le remplace pas).
+# La base vient de Testcontainers (@ServiceConnection).
+# Valeur factice : ce n'est pas un vrai secret.
+shs:
+  jwt-secret: test-secret-factice-0123456789-abcdefghij
