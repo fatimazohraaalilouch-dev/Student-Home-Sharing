@@ -1,79 +1,195 @@
-%% Déduit de l'inventaire (doc 04), à vérifier écran par écran sur les maquettes
+%% Navigation SHS vérifiée écran par écran sur les maquettes (design-shs-app.zip), issue S1-15, 18/11/2026.
+%% Trait plein : cible confirmée par la maquette ou proposition retenue pour S1-15 (à valider en relecture de PR).
+%% Pointillé : cible encore à confirmer, ou écran à créer.
+%% Fond orange : écran nécessaire mais sans maquette (voir les issues « Écart maquette »).
 flowchart TB
   SPL[Splash] -->|session valide| HOME
-  SPL -->|pas de session| ONB[Découverte 1 à 3]
-  ONB --> REG[Inscription] --> ROLE[Préférences · Rôle] --> LANG[Préférences · Langue]
-  ONB --> LOG[Connexion]
+  SPL -.->|"session valide, dernier espace actif propriétaire (à confirmer)"| MYL
+  SPL -->|pas de session| ONB1
+  ONB1[Découverte 1 · Logement étudiant] -->|Continuer| ONB2[Découverte 2 · Annonces vérifiées] -->|Continuer| ONB3[Découverte 3 · Conseils Copilot]
+  ONB3 -->|"C'est parti"| REG[Inscription]
+  ONB1 -->|Passer| REG
+  ONB2 -->|Passer| REG
+  ONB3 -->|Passer| REG
+  ONB1 -->|"J'ai déjà un compte"| LOG[Connexion]
+  ONB2 -->|"J'ai déjà un compte"| LOG
+  ONB3 -->|"J'ai déjà un compte"| LOG
+  REG -->|Créer mon compte| ROLE[Préférences · Rôle]
+  REG -->|Se connecter| LOG
+  ROLE --> LANG[Préférences · Langue]
+  LOG -->|Créer un compte| REG
+  LOG -->|Se connecter| HOME
   LOG -->|401| LOGERR[Identifiants invalides]
+  LOGERR -->|Réessayer| LOG
   LOG -->|SESSION_EXPIRED| LOGEXP[Session expirée]
-  LANG --> TP1[Profil 1 Établissement] --> TP2[Profil 2 Préférences] --> TP3[Profil 3 Importance]
-  TP3 --> HOME
-  LOG --> HOME
+  LOGEXP -->|Me reconnecter| LOG
+  LOG -.->|"Mot de passe oublié (maquette absente)"| PWD[Mot de passe oublié]
+  PWD -.->|Retour à la connexion| LOG
+  LANG -->|"Étudiant"| TP1[Profil 1 Établissement]
+  LANG -->|"Propriétaire (sans profil locataire)"| MYL
+  TP1 --> TP2[Profil 2 Préférences] --> TP3[Profil 3 Importance]
+  TP3 -->|Explorer les logements| HOME
+
   subgraph T[Espace locataire · 5 destinations]
-    HOME[Explorer: Accueil] --> MAP[Carte]
-    HOME --> FIL[Filtres]
-    HOME --> RES[Résultats] --> LOAD[Chargement]
-    RES --> EMP[Aucun résultat] --> FIL
-    RES --> ALT[Alternatives proches]
-    RES --> DET[Détail annonce]
+    HOME[Explorer: Accueil] -->|Carte| MAP[Carte]
+    HOME -->|Filtres| FIL[Filtres]
+    HOME -->|cartes Recommandés| DET[Détail annonce]
+    HOME -->|Décrivez votre logement idéal| CH
+    FIL -->|Afficher les logements| LOAD[Chargement]
+    LOAD --> RES[Résultats]
+    LOAD -->|aucun résultat| EMP[Aucun résultat]
+    LOAD -->|"assouplissement du budget"| ALT[Alternatives proches]
+    RES -->|Filtres| FIL
+    RES -->|Carte| MAP
+    RES --> DET
+    MAP -->|Liste| RES
+    MAP -->|Filtres| FIL
     MAP --> DET
-    DET --> REP[Signalement] --> REPC[Confirmation]
-    DET --> BK[Réservation · Demande]
-    BK -->|409| BKC[Conflit de dates] --> BK
-    BK --> BKS[Demande envoyée] --> BKD[Détail et suivi]
-    BKD --> CANC[Confirmer l'annulation]
-    BKD --> REVW[Avis · Rédaction] --> REVP[Avis publié]
-    DET --> CONV
+    EMP -->|Modifier mes filtres| FIL
+    EMP -->|Élargir à 3 km| LOAD
+    EMP -->|Copilot peut vous aider| CH
+    ALT --> DET
+    ALT -->|Modifier| FIL
+    DET -->|icône alerte| REP[Signalement]
+    REP -->|Envoyer le signalement| REPC[Confirmation]
+    REP -->|Fermer| DET
+    REPC -->|Revenir à l'annonce| DET
+    DET -->|Réserver| BK[Réservation · Demande]
+    DET -->|Contacter| CONV
+    DET -.->|"Voir toute la galerie (maquette absente)"| GAL[Galerie photos]
+    BK -->|409| BKC[Conflit de dates]
+    BKC -->|Choisir d'autres dates| BK
+    BK -->|Envoyer la demande| BKS[Demande envoyée]
+    BKS -->|Voir mes réservations| MYB
+    BKS -->|Ouvrir la conversation| CONV
+    MYB -->|Voir le suivi| BKD[Détail et suivi]
+    MYB -->|Annuler la demande| CANC[Confirmer l'annulation]
+    MYB -->|Laisser un avis| REVW[Avis · Rédaction]
+    BKD -->|Annuler la demande| CANC
+    BKD -->|Laisser un avis| REVW
+    BKD -->|Contacter le propriétaire| CONV
+    CANC -->|Oui, annuler la demande| MYB
+    CANC -->|Garder ma demande| MYB
+    REVW -->|Publier mon avis| REVP[Avis publié]
+    REVP -->|Retour à l'historique| MYB
     FAV[Favoris] --> DET
     FAV --> FAVE[État vide]
+    FAVE -->|Explorer les logements| HOME
     MSG[Messages] --> CONV[Conversation et alerte]
     MSG --> MSGE[État vide]
-    CONV --> DRAFT[Brouillon non envoyé]
-    CONV --> ADV[Copilot · Conseil privé]
-    PRO[Profil locataire] --> MYB[Mes réservations] --> BKD
-    PRO --> SET[Réglages]
-    PRO --> EDT[Profil · Modifier]
-    PRO --> SWITCH[Changer de rôle]
+    MSGE -->|Explorer les logements| HOME
+    CONV -->|Voir le logement| DET
+    CONV -->|Demander conseil · Voir le conseil| ADV[Copilot · Conseil privé]
+    ADV -->|consentement requis| CCS
+    ADV -->|Utiliser ce brouillon| DRAFT[Brouillon non envoyé]
+    ADV -->|Ignorer| CONV
+    ADV -->|Copilot indisponible| SIMP[Analyse simplifiée]
+    SIMP -->|Utiliser ce brouillon| DRAFT
+    SIMP -->|Ignorer| CONV
+    DRAFT -->|Envoyer| CONV
+    PRO[Profil locataire] -->|Mes réservations| MYB[Mes réservations]
+    PRO -->|Réglages| SET[Réglages]
+    PRO -->|Modifier mon profil| EDT[Profil · Modifier]
+    PRO -->|Espace propriétaire| SWITCH[Changer de rôle]
+    PRO -->|Mes préférences| TP1
+    EDT -->|Enregistrer · Annuler| PRO
   end
+
   subgraph C[Copilot · onglet central]
-    CH[Accueil] --> THK[Réflexion] --> CR[Conversation et résultats]
-    CR --> CMP[Comparer 3 logements]
-    CR --> REL[Fiabilité]
-    CR --> NOL[Aucun logement]
-    CH --> CCS[Consentement]
-    CH --> RL[Limite atteinte]
-    CH --> OFF[Hors ligne]
-    ADV --> CCS
-    ADV --> SIMP[Analyse simplifiée]
+    CH[Accueil] -->|question ou suggestion| THK[Réflexion]
+    CH -->|Compare mes favoris| CMP[Comparer 3 logements]
+    CH -->|Cette annonce est-elle fiable ?| REL[Fiabilité]
+    THK -->|résultats| CR[Conversation et résultats]
+    THK -->|aucun logement| NOL[Aucun logement]
+    THK -->|hors ligne| OFF[Hors ligne]
+    THK -->|quota atteint| RL[Limite atteinte]
+    THK -->|Arrêter la recherche| CH
+    CR -->|Comparer ces logements| CMP
+    CR -->|annonce| DET
+    CR --> REL
+    CMP -->|Voir la chambre| DET
+    REL -->|Voir l'annonce| DET
+    NOL -->|Modifier mes critères| FIL
+    NOL -->|Retour à Copilot| CH
+    OFF -->|Réessayer| THK
+    OFF -->|Retour à Copilot| CH
+    RL -->|Explorer les logements| HOME
+    RL -->|Retour à Copilot| CH
+    CCS[Consentement] -->|Autoriser| ADV
+    CCS -->|Pas maintenant| CONV
   end
+
   subgraph S[Réglages]
-    SET --> SG[Langue et aperçu RTL]
-    SET --> SC[Consentements Copilot] --> SR[Révoquer]
-    SET --> SN[Notifications]
-    SET --> SP[Confidentialité]
-    SET --> ST[Conditions]
-    SET --> ACL[Déconnexion]
-    SP --> ACD[Suppression] --> ACS[Compte supprimé]
+    SET -->|Langue| SG[Langue et aperçu RTL]
+    SET -.->|"Apparence (maquette absente)"| APR[Apparence]
+    SET -->|Consentements Copilot| SC[Consentements Copilot]
+    SET -->|Notifications| SN[Notifications]
+    SET -->|Politique de confidentialité| SP[Confidentialité]
+    SET -->|Conditions d'utilisation| ST[Conditions]
+    SET -->|Se déconnecter| ACL[Déconnexion]
+    SET -->|Supprimer mon compte| ACD[Suppression]
+    SG -->|Appliquer la langue| SET
+    SC -->|Révoquer les autorisations| SR[Révoquer]
+    SC -->|Politique de confidentialité| SP
+    SR -->|Révoquer · Conserver mes choix| SC
+    SN -->|Enregistrer| SET
+    SP -->|Retour aux réglages| SET
+    ST -->|Retour aux réglages| SET
+    ACL -->|Se déconnecter| LOG
+    ACL -->|Rester connecté| SET
+    ACD -->|Supprimer définitivement| ACS[Compte supprimé]
+    ACD -->|Conserver mon compte| SET
+    ACS -->|"Retour à l'accueil"| ONB1
   end
+
   subgraph O[Espace propriétaire · 4 destinations]
     SWITCH --> MYL[Mes annonces]
     MYL --> MYLE[État vide]
-    MYL --> P1[Publication 1 Informations] --> P2[2 Prix] --> P3[3 Détails] --> P4[4 Localisation] --> P5[5 Photos] --> P6[Récapitulatif]
-    P6 --> PRF[Justificatif ajouté] --> V1[Vérification en cours]
+    MYL -->|Publier| P1[Publication 1 Informations]
+    MYLE -->|Publier| P1
+    P1 --> P2[2 Prix] --> P3[3 Détails] --> P4[4 Localisation] --> P5[5 Photos] --> P6[Récapitulatif]
+    P6 -->|Soumettre pour vérification| PRF[Preuve d'autorisation]
+    PRF -->|Lancer la vérification| V1[Vérification en cours]
     V1 --> V2[Vérifié automatiquement]
     V1 --> V3[À compléter]
     V1 --> V4[Incohérente]
-    MYL --> GP[Gestion publiée]
+    V1 -->|Retour à mes annonces| MYL
+    V2 -->|Gérer mon annonce| GP[Gestion publiée]
+    V3 -->|Ajouter un document| PRF
+    V4 -->|Renvoyer une preuve| PRF
+    V3 -->|Retour à mes annonces| MYL
+    V4 -->|Retour à mes annonces| MYL
+    MYL --> GP
     MYL --> GH[Gestion en attente]
     MYL --> GS[Gestion suspendue]
-    GP --> GE[Mode modification]
-    GP --> GD[Confirmation de suppression]
+    GH -->|Compléter ma preuve| PRF
+    GS -->|Modifier pour réexamen| GE
+    GP -->|Modifier| GE[Mode modification]
+    GP -->|Supprimer| GD[Confirmation de suppression]
+    GD -->|Supprimer l'annonce| MYL
+    GD -->|Conserver l'annonce| GP
+    GE -->|Enregistrer · Annuler| GP
+    GE -.->|"Détails (à confirmer)"| P3
+    GE -.->|"Localisation (à confirmer)"| P4
+    GE -.->|"Photos (à confirmer)"| P5
     ORQ[Demandes] --> OVL[Chevauchement]
     ORQ --> ORE[Aucune demande]
+    ORE -->|Voir mes annonces| MYL
+    OVL -->|"Proposer d'autres dates : message prérempli"| CONV
     OMSG[Messages] --> CONV
-    OPRO[Profil propriétaire] --> SET
+    OPRO[Profil propriétaire] -->|Mes annonces| MYL
+    OPRO -->|Demandes de réservation| ORQ
+    OPRO -->|Réglages| SET
+    OPRO -->|Espace locataire| HOME
+    OPRO -->|"Espace locataire, 1re fois sans profil"| TP1
   end
+
   PERM[Permissions caméra, galerie, localisation] -.-> P5
   PERM -.-> PRF
   PERM -.-> MAP
-  ERR[États: sans internet, erreur serveur, session expirée] -.-> LOG
+  PERM -.->|"photo de profil (à confirmer)"| EDT
+  ERR[États: sans internet, erreur serveur, session expirée] -.->|Se reconnecter| LOG
+  ERR -.->|Retour à l'accueil| HOME
+
+  classDef absent fill:#FFF3CD,stroke:#B8860B,color:#5C4400
+  class PWD,GAL,APR absent
