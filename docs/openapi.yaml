@@ -91,7 +91,7 @@ paths:
   /me/notification-preferences:
     get:
       tags: [me]
-      summary: Lire les réglages de notifications (clés à définir d'après l'écran)
+      summary: Lire les réglages de notifications (5 clés, voir NotificationKey)
       responses:
         '200': {description: OK, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/NotificationPreference'}}}}}
     put:
@@ -468,6 +468,7 @@ components:
     ReportReason: {type: string, enum: [DUPLICATE, SUSPICIOUS_PRICE, FAKE_PHOTOS, PAYMENT_OUTSIDE_PLATFORM, OTHER], description: À confronter à l'écran de signalement}
     TrustLevel: {type: string, enum: [LOW, MEDIUM, HIGH]}
     ConsentScope: {type: string, enum: [CONVERSATION_ANALYSIS, AUTO_SUGGESTIONS]}
+    NotificationKey: {type: string, enum: [messages, booking_updates, listing_updates, copilot_tips, news], description: 'Valeurs par défaut quand aucune ligne n''existe : copilot_tips et news désactivées, les trois autres activées'}
     MessageFlag: {type: string, enum: [DEPOSIT_BEFORE_VISIT, PAYMENT_OFF_PLATFORM, PRESSURE, PRICE_CHANGE]}
     AmenityCode: {type: string, enum: [WIFI, HOT_WATER, KITCHEN, WASHER, DESK, AIR_CONDITIONING]}
     AuthTokens:
@@ -511,7 +512,7 @@ components:
     NotificationPreference:
       type: object
       required: [key, enabled]
-      properties: {key: {type: string}, enabled: {type: boolean}}
+      properties: {key: {$ref: '#/components/schemas/NotificationKey'}, enabled: {type: boolean}}
     Establishment:
       type: object
       properties:
