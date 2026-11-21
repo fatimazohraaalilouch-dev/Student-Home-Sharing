@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Squelette : sera complété écran par écran d'après docs/05-navigation.mmd -->
+<!-- Graphe racine : un <include> par lot. Chaque lot ne modifie que son propre fichier nav_*.xml. -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/placeholderFragment">
-    <fragment
-        android:id="@+id/placeholderFragment"
-        android:name="ma.shs.app.ui.PlaceholderFragment"
-        tools:layout="@layout/fragment_placeholder" />
+    app:startDestination="@id/nav_auth">
+    <include app:graph="@navigation/nav_auth" />
+    <include app:graph="@navigation/nav_tenant" />
+    <include app:graph="@navigation/nav_owner" />
+    <include app:graph="@navigation/nav_copilot" />
 </navigation>

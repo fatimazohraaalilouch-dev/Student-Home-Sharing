@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lot copilot : Accueil, Réflexion, Résultats, Comparer 3, Fiabilité, Consentement, Limite, Hors ligne -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_copilot"
+    app:startDestination="@id/copilotPlaceholder">
+    <fragment
+        android:id="@+id/copilotPlaceholder"
+        android:name="ma.shs.app.ui.PlaceholderFragment"
+        tools:layout="@layout/fragment_placeholder" />
+</navigation>
