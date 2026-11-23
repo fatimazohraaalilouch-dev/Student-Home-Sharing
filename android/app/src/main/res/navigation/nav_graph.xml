@@ -6,6 +6,10 @@
     app:startDestination="@id/nav_auth">
     <include app:graph="@navigation/nav_auth" />
     <include app:graph="@navigation/nav_tenant" />
+    <include app:graph="@navigation/nav_booking" />
+    <include app:graph="@navigation/nav_messaging" />
+    <include app:graph="@navigation/nav_owner" />
     <include app:graph="@navigation/nav_owner" />
     <include app:graph="@navigation/nav_copilot" />
+
 </navigation>
