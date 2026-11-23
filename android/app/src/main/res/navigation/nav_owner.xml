@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lot owner : Mes annonces, Publication 1-6, Justificatif, Gestion, Demandes, Profil propriétaire -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_owner"
+    app:startDestination="@id/ownerPlaceholder">
+    <fragment
+        android:id="@+id/ownerPlaceholder"
+        android:name="ma.shs.app.ui.PlaceholderFragment"
+        tools:layout="@layout/fragment_placeholder" />
+</navigation>

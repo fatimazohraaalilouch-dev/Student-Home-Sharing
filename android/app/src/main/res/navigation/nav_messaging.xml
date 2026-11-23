@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lot échanges : Messages, Conversation et alerte, Conseil privé, Analyse simplifiée, Brouillon (docs/05-navigation.mmd). Utilisé par les espaces locataire et propriétaire. -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_messaging"
+    app:startDestination="@id/messagingPlaceholder">
+    <fragment
+        android:id="@+id/messagingPlaceholder"
+        android:name="ma.shs.app.ui.PlaceholderFragment"
+        tools:layout="@layout/fragment_placeholder" />
+</navigation>
