@@ -4,7 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_auth"
-    app:startDestination="@id/authPlaceholder">
+    app:startDestination="@id/authDemo">
+    <!-- Écran factice S1-08 : à remplacer par le Splash -->
+    <fragment
+        android:id="@+id/authDemo"
+        android:name="ma.shs.app.ui.demo.DemoFragment"
+        tools:layout="@layout/fragment_demo" />
     <fragment
         android:id="@+id/authPlaceholder"
         android:name="ma.shs.app.ui.PlaceholderFragment"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Textes communs : préfixes common_ et error_. Attention : une apostrophe s'écrit \' dans ce format. -->
+
 <resources>
     <string name="common_retry">Réessayer</string>
     <string name="common_loading">Chargement…</string>
@@ -18,4 +19,9 @@
     <string name="error_copilot_rate_limit_generic">Limite Copilot atteinte. Réessayez plus tard.</string>
     <string name="error_server">Une erreur est survenue côté serveur. Réessayez plus tard.</string>
     <string name="error_unknown">Une erreur inattendue est survenue.</string>
+    <!-- Écran factice S1-08 : à supprimer avec le package ui/demo -->
+    <string name="demo_title">Écran de démonstration</string>
+    <string name="demo_btn_content">Contenu</string>
+    <string name="demo_btn_empty">Vide</string>
+    <string name="demo_btn_error">Erreur réseau</string>
 </resources>
