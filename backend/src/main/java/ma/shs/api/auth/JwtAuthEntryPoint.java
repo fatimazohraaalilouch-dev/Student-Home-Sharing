@@ -1,7 +1,6 @@
 package ma.shs.api.auth;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
@@ -30,6 +29,6 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint{
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         res.setCharacterEncoding("UTF-8");
-        mapper.writeValue(res.getWriter(), Map.of("code", code, "message", message, "details", List.of()));
-    }
+        mapper.writeValue(res.getWriter(), Map.of("code", code, "message", message, "details", Map.of()));
+   }
 }
