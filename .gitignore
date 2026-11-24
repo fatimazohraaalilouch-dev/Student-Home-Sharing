@@ -21,3 +21,7 @@ __pycache__/
 # Secrets
 .env
 *.pem
+# fichers eclipse
+.classpath
+.project
+.settings
