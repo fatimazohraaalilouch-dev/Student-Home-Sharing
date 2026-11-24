@@ -23,6 +23,5 @@ shs:
 
 app:
   jwt:
-  secret: ${SHS_JWT_SECRET}
-  access-ttl-minutes: 15
-  refresh-ttl-day: 7
+    access-ttl-minutes: 15
+    refresh-ttl-days: 7

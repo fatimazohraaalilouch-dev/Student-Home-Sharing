@@ -18,7 +18,7 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
 	private final SecretKey key;
 	 private final long accessTtlMin;
-	 public JwtService(@Value("${app.jwt.secret}") String secret, @Value("${app.jwt.access-ttl-minutes}") long accessTtlMin) {
+	 public JwtService(@Value("${shs.jwt-secret}") String secret, @Value("${app.jwt.access-ttl-minutes}") long accessTtlMin) {
 		 this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)); // 32 caractères minimum
 		 this.accessTtlMin = accessTtlMin;
 	 }
