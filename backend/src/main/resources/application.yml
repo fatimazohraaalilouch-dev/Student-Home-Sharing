@@ -20,3 +20,9 @@ management:
 shs:
   intelligence-url: ${SHS_INTELLIGENCE_URL:http://localhost:8000}
   jwt-secret: ${SHS_JWT_SECRET:}
+
+app:
+  jwt:
+  secret: ${SHS_JWT_SECRET}
+  access-ttl-minutes: 15
+  refresh-ttl-day: 7

@@ -25,7 +25,7 @@ services:
       SPRING_DATASOURCE_USERNAME: shs
       SPRING_DATASOURCE_PASSWORD: shs_dev
       SHS_INTELLIGENCE_URL: http://intelligence:8000
-      SHS_JWT_SECRET: change-me-in-dev-only-change-me-in-dev-only
+      SHS_JWT_SECRET: ${SHS_JWT_SECRET}
     ports: ["8080:8080"]
 volumes:
   dbdata:
