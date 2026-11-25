@@ -20,6 +20,10 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
     </style>
+    <!-- Bouton destructif : rouge (« Supprimer définitivement ») -->
+    <style name="Widget.Shs.Button.Danger" parent="Widget.Shs.Button.Primary">
+        <item name="backgroundTint">@color/shs_danger</item>
+    </style>
     <!-- Bouton texte (« Plus tard ») -->
     <style name="Widget.Shs.Button.Text" parent="Widget.Material3.Button.TextButton">
         <item name="android:minHeight">@dimen/touch_target_min</item>
