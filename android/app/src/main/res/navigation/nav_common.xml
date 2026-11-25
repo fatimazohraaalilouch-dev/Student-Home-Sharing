@@ -9,4 +9,10 @@
         android:id="@+id/commonPlaceholder"
         android:name="ma.shs.app.ui.PlaceholderFragment"
         tools:layout="@layout/fragment_placeholder" />
+    
+    <fragment
+    android:id="@+id/stateNoInternet"
+    android:name="ma.shs.app.ui.system.NoInternetFragment"
+    tools:layout="@layout/fragment_state_no_internet" />
+    
 </navigation>

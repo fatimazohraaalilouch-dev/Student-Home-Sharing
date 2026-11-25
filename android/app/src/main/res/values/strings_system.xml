@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Écrans transverses : préfixes state_, perm_ et account_. Une apostrophe s'écrit \' dans ce format. -->
 <resources>
+    <string name="state_bar_title_connection">Connexion</string>
+    <string name="state_no_internet_title">Pas de connexion internet</string>
+    <string name="state_no_internet_body">Vérifiez votre connexion wifi ou vos données mobiles. Vos modifications non envoyées restent sur cet appareil.</string>
+    <string name="state_back">Revenir en arrière</string>
 </resources>

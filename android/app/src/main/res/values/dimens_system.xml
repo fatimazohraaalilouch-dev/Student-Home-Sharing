@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Écrans transverses (états, autorisations, compte) -->
+<resources>
+    <dimen name="state_icon_size">40dp</dimen>
+    <dimen name="state_content_top">112dp</dimen>
+</resources>
