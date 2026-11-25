@@ -3,4 +3,6 @@
 <resources>
     <dimen name="state_icon_size">40dp</dimen>
     <dimen name="state_content_top">112dp</dimen>
+    <dimen name="perm_icon_size">32dp</dimen>
+
 </resources>

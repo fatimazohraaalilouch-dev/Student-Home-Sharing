@@ -14,4 +14,27 @@
     <string name="state_session_expired_body">Pour protéger vos données, connectez-vous à nouveau. Vos favoris et vos réservations restent liés à votre compte.</string>
     <string name="state_session_expired_login">Se reconnecter</string>
     <string name="state_session_expired_explore">Explorer sans compte</string>
+
+    <string name="perm_bar_profile_photo">Photo de profil</string>
+    <string name="perm_bar_around">Autour de vous</string>
+    <string name="perm_headline">Une autorisation, un usage précis</string>
+    <string name="perm_deny">Ne pas autoriser</string>
+    <string name="perm_footer">Vous pourrez modifier votre choix dans les réglages Android.</string>
+
+    <string name="perm_camera_hint">Vous pourrez choisir une photo depuis la galerie.</string>
+    <string name="perm_camera_title">Autoriser l\'accès à la caméra ?</string>
+    <string name="perm_camera_body">Student Home Sharing souhaite utiliser la caméra pour prendre votre photo de profil ou photographier un document.</string>
+    <string name="perm_camera_allow">Lorsque l\'application est utilisée</string>
+
+    <string name="perm_gallery_hint">Vous pouvez continuer sans ajouter de photo.</string>
+    <string name="perm_gallery_title">Choisir des photos à partager</string>
+    <string name="perm_gallery_body">Autorisez uniquement les photos que vous sélectionnez. Le reste de votre galerie reste privé.</string>
+    <string name="perm_gallery_allow">Sélectionner des photos</string>
+
+    <string name="perm_location_hint">Vous pouvez saisir un quartier ou un campus manuellement.</string>
+    <string name="perm_location_title">Autoriser votre position ?</string>
+    <string name="perm_location_body">Utilisez votre position pour afficher les logements proches. Votre adresse exacte n\'est pas publiée.</string>
+    <string name="perm_location_allow">Autoriser pendant l\'utilisation</string>
+    <string name="perm_location_once">Cette fois uniquement</string>
+
 </resources>

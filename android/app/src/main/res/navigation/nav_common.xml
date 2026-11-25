@@ -17,12 +17,24 @@
 
     <fragment
         android:id="@+id/stateServerError"
-        android:name="ma.shs.app.ui.system.`ServerErrorFragment.kt`"
+        android:name="ma.shs.app.ui.system.ServerErrorFragment"
         tools:layout="@layout/fragment_state_server_error" />
     <fragment
         android:id="@+id/stateSessionExpired"
-        android:name="ma.shs.app.ui.system.`SessionExpiredFragment.kt`"
+        android:name="ma.shs.app.ui.system.SessionExpiredFragment"
         tools:layout="@layout/fragment_state_session_expired" />
 
+    <fragment
+        android:id="@+id/permCamera"
+        android:name="ma.shs.app.ui.system.CameraPermissionFragment"
+        tools:layout="@layout/fragment_perm_camera" />
+    <fragment
+        android:id="@+id/permGallery"
+        android:name="ma.shs.app.ui.system.GalleryPermissionFragment"
+        tools:layout="@layout/fragment_perm_gallery" />
+    <fragment
+        android:id="@+id/permLocation"
+        android:name="ma.shs.app.ui.system.LocationPermissionFragment"
+        tools:layout="@layout/fragment_perm_location" />
 
 </navigation>
