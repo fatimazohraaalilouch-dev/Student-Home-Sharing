@@ -14,5 +14,15 @@
     android:id="@+id/stateNoInternet"
     android:name="ma.shs.app.ui.system.NoInternetFragment"
     tools:layout="@layout/fragment_state_no_internet" />
-    
+
+    <fragment
+        android:id="@+id/stateServerError"
+        android:name="ma.shs.app.ui.system.`ServerErrorFragment.kt`"
+        tools:layout="@layout/fragment_state_server_error" />
+    <fragment
+        android:id="@+id/stateSessionExpired"
+        android:name="ma.shs.app.ui.system.`SessionExpiredFragment.kt`"
+        tools:layout="@layout/fragment_state_session_expired" />
+
+
 </navigation>

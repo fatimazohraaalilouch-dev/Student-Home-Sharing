@@ -5,4 +5,13 @@
     <string name="state_no_internet_title">Pas de connexion internet</string>
     <string name="state_no_internet_body">Vérifiez votre connexion wifi ou vos données mobiles. Vos modifications non envoyées restent sur cet appareil.</string>
     <string name="state_back">Revenir en arrière</string>
+    <string name="state_bar_title_server">Service indisponible</string>
+    <string name="state_server_error_title">Le serveur fait une pause</string>
+    <string name="state_server_error_body">Le service est momentanément indisponible. Aucune nouvelle demande n\'a été envoyée. Réessayez dans quelques instants.</string>
+    <string name="state_back_home">Retour à l\'accueil</string>
+
+    <string name="state_session_expired_title">Votre session a expiré</string>
+    <string name="state_session_expired_body">Pour protéger vos données, connectez-vous à nouveau. Vos favoris et vos réservations restent liés à votre compte.</string>
+    <string name="state_session_expired_login">Se reconnecter</string>
+    <string name="state_session_expired_explore">Explorer sans compte</string>
 </resources>

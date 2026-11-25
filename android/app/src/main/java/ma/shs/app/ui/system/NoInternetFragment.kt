@@ -12,6 +12,16 @@ object StateResult {
     const val KEY = "state_result"
     const val ACTION = "action"
     const val RETRY = "retry"
+    const val HOME = "home"
+    const val LOGIN = "login"
+    const val EXPLORE = "explore"
+
+    fun send(fragment: Fragment, action: String) {
+        fragment.parentFragmentManager.setFragmentResult(
+            KEY,
+            Bundle().apply { putString(ACTION, action) }
+        )
+    }
 }
 
 class NoInternetFragment : Fragment(R.layout.fragment_state_no_internet) {
