@@ -51,11 +51,13 @@ public class AuthService {
         UUID id = UUID.randomUUID();
         jdbc.update("INSERT INTO app_user (id, email, password_hash, full_name, phone) VALUES (?, ?, ?, ?, ?)",
                 id, email, encoder.encode(r.password()), r.fullName(), r.phone());
+        // Tout nouveau compte a l'espace TENANT (l'espace OWNER s'active par POST /me/spaces)
+        jdbc.update("INSERT INTO user_space (user_id, space) VALUES (?, 'TENANT')", id);
         return issueTokens(id);
     }
 
     public AuthTokens login(LoginRequest r) {
-        var rows = jdbc.queryForList("SELECT id, password_hash FROM app_user WHERE email = ?",
+        var rows = jdbc.queryForList("SELECT id, password_hash FROM app_user WHERE email = ? AND deleted_at IS NULL AND is_active = true",
                 r.email().trim().toLowerCase());
         // Même réponse si l'e-mail n'existe pas ou si le mot de passe est faux
         if (rows.isEmpty() || !encoder.matches(r.password(), (String) rows.get(0).get("password_hash"))) {
