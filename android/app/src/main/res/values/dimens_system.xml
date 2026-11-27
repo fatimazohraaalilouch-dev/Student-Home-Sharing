@@ -4,5 +4,7 @@
     <dimen name="state_icon_size">40dp</dimen>
     <dimen name="state_content_top">112dp</dimen>
     <dimen name="perm_icon_size">32dp</dimen>
+    <dimen name="account_card_top">96dp</dimen>
+    <dimen name="card_padding_compact">20dp</dimen>
 
 </resources>

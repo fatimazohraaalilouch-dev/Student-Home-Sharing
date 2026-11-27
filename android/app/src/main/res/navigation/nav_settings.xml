@@ -9,4 +9,17 @@
         android:id="@+id/settingsPlaceholder"
         android:name="ma.shs.app.ui.PlaceholderFragment"
         tools:layout="@layout/fragment_placeholder" />
+
+    <fragment
+        android:id="@+id/accountLogout"
+        android:name="ma.shs.app.ui.system.LogoutFragment"
+        tools:layout="@layout/fragment_account_logout" />
+    <fragment
+        android:id="@+id/accountDelete"
+        android:name="ma.shs.app.ui.system.DeleteAccountFragment"
+        tools:layout="@layout/fragment_account_delete" />
+    <fragment
+        android:id="@+id/accountDeleted"
+        android:name="ma.shs.app.ui.system.AccountDeletedFragment"
+        tools:layout="@layout/fragment_account_deleted" />
 </navigation>

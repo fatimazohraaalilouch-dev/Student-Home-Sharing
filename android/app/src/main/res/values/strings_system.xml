@@ -37,4 +37,25 @@
     <string name="perm_location_allow">Autoriser pendant l\'utilisation</string>
     <string name="perm_location_once">Cette fois uniquement</string>
 
+    <string name="account_bar_my_account">Mon compte</string>
+    <string name="account_logout_title">Se déconnecter ?</string>
+    <string name="account_logout_body">Vous devrez vous reconnecter pour accéder à vos messages, favoris et réservations. Vos données restent enregistrées.</string>
+    <string name="account_logout_confirm">Se déconnecter</string>
+    <string name="account_logout_stay">Rester connecté</string>
+
+    <string name="account_bar_delete">Supprimer mon compte</string>
+    <string name="account_delete_heading">Avant de partir</string>
+    <string name="account_delete_warning_title">Cette action est irréversible</string>
+    <string name="account_delete_warning_body">Votre profil, vos favoris et vos préférences seront supprimés. Certaines données liées aux réservations ou à des litiges peuvent être conservées selon les obligations légales.</string>
+    <string name="account_delete_bookings_notice">Terminez ou annulez vos réservations en cours avant de supprimer votre compte.</string>
+    <string name="account_delete_password_label">Confirmez votre mot de passe</string>
+    <string name="account_delete_password_required">Saisissez votre mot de passe pour confirmer.</string>
+    <string name="account_delete_consent">En confirmant, je demande la suppression définitive de mon compte.</string>
+    <string name="account_delete_confirm">Supprimer définitivement</string>
+    <string name="account_delete_keep">Conserver mon compte</string>
+
+    <string name="account_deleted_bar">Compte supprimé</string>
+    <string name="account_deleted_title">Votre compte a été supprimé</string>
+    <string name="account_deleted_body">Vous êtes déconnecté. Les données soumises à une obligation légale restent conservées uniquement pour cette finalité.</string>
+
 </resources>
