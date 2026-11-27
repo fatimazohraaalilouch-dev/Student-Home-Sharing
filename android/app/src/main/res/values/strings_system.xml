@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Écrans transverses : préfixes state_, perm_ et account_. Une apostrophe s'écrit \' dans ce format. -->
+<resources>
+    <string name="state_bar_title_connection">Connexion</string>
+    <string name="state_no_internet_title">Pas de connexion internet</string>
+    <string name="state_no_internet_body">Vérifiez votre connexion wifi ou vos données mobiles. Vos modifications non envoyées restent sur cet appareil.</string>
+    <string name="state_back">Revenir en arrière</string>
+    <string name="state_bar_title_server">Service indisponible</string>
+    <string name="state_server_error_title">Le serveur fait une pause</string>
+    <string name="state_server_error_body">Le service est momentanément indisponible. Aucune nouvelle demande n\'a été envoyée. Réessayez dans quelques instants.</string>
+    <string name="state_back_home">Retour à l\'accueil</string>
+
+    <string name="state_session_expired_title">Votre session a expiré</string>
+    <string name="state_session_expired_body">Pour protéger vos données, connectez-vous à nouveau. Vos favoris et vos réservations restent liés à votre compte.</string>
+    <string name="state_session_expired_login">Se reconnecter</string>
+    <string name="state_session_expired_explore">Explorer sans compte</string>
+
+    <string name="perm_bar_profile_photo">Photo de profil</string>
+    <string name="perm_bar_around">Autour de vous</string>
+    <string name="perm_headline">Une autorisation, un usage précis</string>
+    <string name="perm_deny">Ne pas autoriser</string>
+    <string name="perm_footer">Vous pourrez modifier votre choix dans les réglages Android.</string>
+
+    <string name="perm_camera_hint">Vous pourrez choisir une photo depuis la galerie.</string>
+    <string name="perm_camera_title">Autoriser l\'accès à la caméra ?</string>
+    <string name="perm_camera_body">Student Home Sharing souhaite utiliser la caméra pour prendre votre photo de profil ou photographier un document.</string>
+    <string name="perm_camera_allow">Lorsque l\'application est utilisée</string>
+
+    <string name="perm_gallery_hint">Vous pouvez continuer sans ajouter de photo.</string>
+    <string name="perm_gallery_title">Choisir des photos à partager</string>
+    <string name="perm_gallery_body">Autorisez uniquement les photos que vous sélectionnez. Le reste de votre galerie reste privé.</string>
+    <string name="perm_gallery_allow">Sélectionner des photos</string>
+
+    <string name="perm_location_hint">Vous pouvez saisir un quartier ou un campus manuellement.</string>
+    <string name="perm_location_title">Autoriser votre position ?</string>
+    <string name="perm_location_body">Utilisez votre position pour afficher les logements proches. Votre adresse exacte n\'est pas publiée.</string>
+    <string name="perm_location_allow">Autoriser pendant l\'utilisation</string>
+    <string name="perm_location_once">Cette fois uniquement</string>
+
+    <string name="account_bar_my_account">Mon compte</string>
+    <string name="account_logout_title">Se déconnecter ?</string>
+    <string name="account_logout_body">Vous devrez vous reconnecter pour accéder à vos messages, favoris et réservations. Vos données restent enregistrées.</string>
+    <string name="account_logout_confirm">Se déconnecter</string>
+    <string name="account_logout_stay">Rester connecté</string>
+
+    <string name="account_bar_delete">Supprimer mon compte</string>
+    <string name="account_delete_heading">Avant de partir</string>
+    <string name="account_delete_warning_title">Cette action est irréversible</string>
+    <string name="account_delete_warning_body">Votre profil, vos favoris et vos préférences seront supprimés. Certaines données liées aux réservations ou à des litiges peuvent être conservées selon les obligations légales.</string>
+    <string name="account_delete_bookings_notice">Terminez ou annulez vos réservations en cours avant de supprimer votre compte.</string>
+    <string name="account_delete_password_label">Confirmez votre mot de passe</string>
+    <string name="account_delete_password_required">Saisissez votre mot de passe pour confirmer.</string>
+    <string name="account_delete_consent">En confirmant, je demande la suppression définitive de mon compte.</string>
+    <string name="account_delete_confirm">Supprimer définitivement</string>
+    <string name="account_delete_keep">Conserver mon compte</string>
+
+    <string name="account_deleted_bar">Compte supprimé</string>
+    <string name="account_deleted_title">Votre compte a été supprimé</string>
+    <string name="account_deleted_body">Vous êtes déconnecté. Les données soumises à une obligation légale restent conservées uniquement pour cette finalité.</string>
+
+</resources>

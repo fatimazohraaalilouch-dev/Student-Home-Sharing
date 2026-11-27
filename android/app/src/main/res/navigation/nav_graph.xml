@@ -11,5 +11,7 @@
     <include app:graph="@navigation/nav_owner" />
     <include app:graph="@navigation/nav_owner" />
     <include app:graph="@navigation/nav_copilot" />
+    <include app:graph="@navigation/nav_common" />
+    <include app:graph="@navigation/nav_settings" />
 
 </navigation>

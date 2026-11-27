@@ -12,6 +12,10 @@
         <item name="colorOnSurface">@color/shs_on_background</item>
         <item name="colorOnSurfaceVariant">@color/shs_on_surface_variant</item>
         <item name="colorOutline">@color/shs_outline</item>
+        
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="elevationOverlayColor">@android:color/transparent</item>
+
         <item name="android:fontFamily">@font/plus_jakarta_sans</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="materialButtonStyle">@style/Widget.Shs.Button.Primary</item>

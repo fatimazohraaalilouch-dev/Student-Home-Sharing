@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sous-graphe Réglages : Compte (déconnexion, suppression, compte supprimé) ; les autres écrans de réglages viendront s'y ajouter -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_settings"
+    app:startDestination="@id/settingsPlaceholder">
+    <fragment
+        android:id="@+id/settingsPlaceholder"
+        android:name="ma.shs.app.ui.PlaceholderFragment"
+        tools:layout="@layout/fragment_placeholder" />
+
+    <fragment
+        android:id="@+id/accountLogout"
+        android:name="ma.shs.app.ui.system.LogoutFragment"
+        tools:layout="@layout/fragment_account_logout" />
+    <fragment
+        android:id="@+id/accountDelete"
+        android:name="ma.shs.app.ui.system.DeleteAccountFragment"
+        tools:layout="@layout/fragment_account_delete" />
+    <fragment
+        android:id="@+id/accountDeleted"
+        android:name="ma.shs.app.ui.system.AccountDeletedFragment"
+        tools:layout="@layout/fragment_account_deleted" />
+</navigation>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Écrans transverses : états (sans internet, erreur serveur, session expirée) et autorisations (caméra, galerie, localisation) -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_common"
+    app:startDestination="@id/commonPlaceholder">
+    <fragment
+        android:id="@+id/commonPlaceholder"
+        android:name="ma.shs.app.ui.PlaceholderFragment"
+        tools:layout="@layout/fragment_placeholder" />
+    
+    <fragment
+    android:id="@+id/stateNoInternet"
+    android:name="ma.shs.app.ui.system.NoInternetFragment"
+    tools:layout="@layout/fragment_state_no_internet" />
+
+    <fragment
+        android:id="@+id/stateServerError"
+        android:name="ma.shs.app.ui.system.ServerErrorFragment"
+        tools:layout="@layout/fragment_state_server_error" />
+    <fragment
+        android:id="@+id/stateSessionExpired"
+        android:name="ma.shs.app.ui.system.SessionExpiredFragment"
+        tools:layout="@layout/fragment_state_session_expired" />
+
+    <fragment
+        android:id="@+id/permCamera"
+        android:name="ma.shs.app.ui.system.CameraPermissionFragment"
+        tools:layout="@layout/fragment_perm_camera" />
+    <fragment
+        android:id="@+id/permGallery"
+        android:name="ma.shs.app.ui.system.GalleryPermissionFragment"
+        tools:layout="@layout/fragment_perm_gallery" />
+    <fragment
+        android:id="@+id/permLocation"
+        android:name="ma.shs.app.ui.system.LocationPermissionFragment"
+        tools:layout="@layout/fragment_perm_location" />
+
+</navigation>
