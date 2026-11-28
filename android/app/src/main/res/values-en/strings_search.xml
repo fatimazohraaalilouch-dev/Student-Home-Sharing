@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_back">Back</string>
+
+    <string name="search_profile_step">YOUR SEARCH · STEP %1$d / %2$d</string>
+    <string name="search_profile_continue">Continue</string>
+    <string name="search_profile_explore">Explore homes</string>
+
+    <string name="search_profile_1_title">Your campus, your landmark</string>
+    <string name="search_profile_1_intro">Find a home close to your school.</string>
+    <string name="search_profile_1_field">University or school</string>
+    <string name="search_profile_1_hint">Search for a school</string>
+    <string name="search_profile_1_selected_tag">Selected school</string>
+    <string name="search_profile_1_no_result">No school found.</string>
+    <string name="search_profile_1_error">Choose your school to continue.</string>
+    <string name="search_profile_1_info_title">Distances start from your campus.</string>
+    <string name="search_profile_1_info_body">You can change this choice in Profile.</string>
+
+    <string name="search_profile_2_title">Your wishes, your limits</string>
+    <string name="search_profile_2_budget">Maximum budget</string>
+    <string name="search_profile_2_budget_value">%1$s MAD / month</string>
+    <string name="search_profile_2_distance">Maximum distance</string>
+    <string name="search_profile_2_distance_value">%1$s km from campus</string>
+    <string name="search_profile_2_min">Min.</string>
+    <string name="search_profile_2_max">Max.</string>
+    <string name="search_profile_2_types">Preferred home types</string>
+    <string name="search_profile_2_amenities">Must-have amenities</string>
+    <string name="search_profile_2_amenities_note">Only homes with these amenities will be kept.</string>
+
+    <string name="search_profile_3_title">What matters to you</string>
+    <string name="search_profile_3_section">Importance of criteria</string>
+    <string name="search_profile_3_intro">Adjust the ranking to your priorities. The compatibility score does not measure risk.</string>
+    <string name="search_profile_3_budget">Budget</string>
+    <string name="search_profile_3_distance">Distance</string>
+    <string name="search_profile_3_amenities">Amenities</string>
+    <string name="search_profile_3_rating">Rating</string>
+    <string name="search_importance_very">Very important</string>
+    <string name="search_importance_important">Important</string>
+    <string name="search_importance_secondary">Secondary</string>
+    <string name="search_importance_value">%1$s · %2$d %%</string>
+
+    <string name="search_type_room">Room</string>
+    <string name="search_type_studio">Studio</string>
+    <string name="search_type_apartment">Apartment</string>
+    <string name="search_type_shared_room">Shared flat</string>
+
+    <string name="search_amenity_wifi">Wi-Fi</string>
+    <string name="search_amenity_hot_water">Hot water</string>
+    <string name="search_amenity_kitchen">Kitchen</string>
+    <string name="search_amenity_washer">Washing machine</string>
+    <string name="search_amenity_desk">Desk</string>
+    <string name="search_amenity_air_conditioning">Air conditioning</string>
+
+    <string name="search_sample_ensah_name">ENSA Al Hoceïma</string>
+    <string name="search_sample_ensah_desc">National School of Applied Sciences\nAjdir, Al Hoceïma</string>
+    <string name="search_sample_fst_name">Faculty of Sciences and Technologies</string>
+    <string name="search_sample_fst_desc">Al Hoceïma · Abdelmalek Essaâdi University</string>
+    <string name="search_sample_campus_name">Al Hoceïma University Campus</string>
+    <string name="search_sample_campus_desc">Aït Kamara · Abdelmalek Essaâdi University</string>
+    <string name="search_sample_ispits_name">ISPITS Al Hoceïma</string>
+    <string name="search_sample_ispits_desc">Al Hoceïma · Ministry of Health</string>
+</resources>

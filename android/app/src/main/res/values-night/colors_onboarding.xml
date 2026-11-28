@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pas de maquette sombre pour ces écrans : valeur choisie pour rester lisible avec shs_teal_accent (à relever si une maquette sombre est livrée). -->
+<resources>
+    <color name="shs_selected_container">#17403D</color>
+</resources>

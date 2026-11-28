@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lot auth (S1-10) : Inscription, Préférences · Rôle, Préférences · Langue.
+     Point d'entrée pour S1-09 (Découverte « C'est parti » / « Passer ») : navigate(R.id.nav_signup). -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_signup"
+    app:startDestination="@id/signupRegister">
+
+    <fragment
+        android:id="@+id/signupRegister"
+        android:name="ma.shs.app.ui.signup.RegisterFragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_register_to_role"
+            app:destination="@id/signupRole" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupRole"
+        android:name="ma.shs.app.ui.signup.RoleFragment"
+        tools:layout="@layout/fragment_role">
+        <action
+            android:id="@+id/action_role_to_language"
+            app:destination="@id/signupLanguage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupLanguage"
+        android:name="ma.shs.app.ui.signup.LanguageFragment"
+        tools:layout="@layout/fragment_language">
+        <!-- Étudiant : Profil locataire 1 (le retour revient à la Langue, décision 11) -->
+        <action
+            android:id="@+id/action_language_to_tenant_profile"
+            app:destination="@id/nav_tenant_profile" />
+        <!-- Propriétaire : espace propriétaire, sans profil locataire (décision 10) -->
+        <action
+            android:id="@+id/action_language_to_owner"
+            app:destination="@id/nav_owner"
+            app:popUpTo="@id/nav_signup"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

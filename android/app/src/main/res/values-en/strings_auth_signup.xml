@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_back">Back</string>
+
+    <string name="auth_signup_tag">STUDENT PROFILE</string>
+    <string name="auth_signup_title">Welcome home.</string>
+    <string name="auth_signup_subtitle">Your next home starts here.</string>
+    <string name="auth_signup_subtitle_errors">Check the fields marked below.</string>
+    <string name="auth_signup_name_label">Full name</string>
+    <string name="auth_signup_name_hint">E.g. Salma El Amrani</string>
+    <string name="auth_signup_email_label">Email address</string>
+    <string name="auth_signup_email_hint">you@example.ma</string>
+    <string name="auth_signup_password_label">Password</string>
+    <string name="auth_signup_password_hint">8 characters minimum</string>
+    <string name="auth_signup_phone_label">Phone · optional</string>
+    <string name="auth_signup_phone_hint">+212 6 00 00 00 00</string>
+    <string name="auth_signup_terms">I accept the terms of use and the privacy policy.</string>
+    <string name="auth_signup_submit">Create my account</string>
+    <string name="auth_signup_privacy_note">Your contact details are not public.</string>
+    <string name="auth_signup_have_account">Already have an account?</string>
+    <string name="auth_signup_login">Log in</string>
+    <string name="auth_signup_error_name">Enter your full name.</string>
+    <string name="auth_signup_error_email">Enter a valid email address.</string>
+    <string name="auth_signup_error_password">Use at least 8 characters.</string>
+    <string name="auth_signup_error_terms">Accept the terms to continue.</string>
+
+    <string name="auth_role_tag">YOUR PROFILE</string>
+    <string name="auth_role_title">And you,\nwhat are you looking for?</string>
+    <string name="auth_role_subtitle">A home for your studies, or tenants for your property?</string>
+    <string name="auth_role_student_title">Student</string>
+    <string name="auth_role_student_desc">I am looking for a room or a shared flat in Al Hoceïma.</string>
+    <string name="auth_role_student_cta">Explore, compare and book</string>
+    <string name="auth_role_owner_title">Owner</string>
+    <string name="auth_role_owner_desc">I offer a property and manage requests.</string>
+    <string name="auth_role_owner_cta">Publish and follow my listings</string>
+    <string name="auth_role_note">You can change role from your profile at any time.</string>
+    <string name="auth_role_continue_student">Continue as a student</string>
+    <string name="auth_role_continue_owner">Continue as an owner</string>
+
+    <string name="auth_language_title">We speak\nyour language.</string>
+    <string name="auth_language_subtitle">Choose the app language. You can change it in your profile.</string>
+    <string name="auth_language_fr_sub">French</string>
+    <string name="auth_language_ar_sub">Arabic</string>
+    <string name="auth_language_en_sub">English</string>
+    <string name="auth_language_rtl_note">An experience designed for right-to-left too.</string>
+    <string name="auth_language_continue">Continue in %1$s</string>
+    <string name="auth_language_label_fr">French</string>
+    <string name="auth_language_label_ar">Arabic</string>
+    <string name="auth_language_label_en">English</string>
+</resources>

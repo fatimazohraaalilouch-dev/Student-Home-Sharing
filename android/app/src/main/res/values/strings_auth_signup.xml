@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lot auth, écrans Inscription / Rôle / Langue (S1-10). Fichier séparé de strings_auth.xml pour éviter les conflits avec S1-09.
+     Attention : une apostrophe s'écrit \' dans ce format. -->
+<resources>
+    <string name="auth_back">Retour</string>
+
+    <!-- Inscription -->
+    <string name="auth_signup_tag">PROFIL ÉTUDIANT</string>
+    <string name="auth_signup_title">Bienvenue chez vous.</string>
+    <string name="auth_signup_subtitle">Votre prochain chez-vous commence ici.</string>
+    <string name="auth_signup_subtitle_errors">Vérifiez les champs signalés ci-dessous.</string>
+    <string name="auth_signup_name_label">Nom complet</string>
+    <string name="auth_signup_name_hint">Ex. Salma El Amrani</string>
+    <string name="auth_signup_email_label">Adresse e-mail</string>
+    <string name="auth_signup_email_hint">vous@exemple.ma</string>
+    <string name="auth_signup_password_label">Mot de passe</string>
+    <string name="auth_signup_password_hint">8 caractères minimum</string>
+    <string name="auth_signup_phone_label">Téléphone · facultatif</string>
+    <string name="auth_signup_phone_hint">+212 6 00 00 00 00</string>
+    <string name="auth_signup_terms">J\'accepte les conditions d\'utilisation et la politique de confidentialité.</string>
+    <string name="auth_signup_submit">Créer mon compte</string>
+    <string name="auth_signup_privacy_note">Vos coordonnées ne sont pas publiques.</string>
+    <string name="auth_signup_have_account">Vous avez déjà un compte ?</string>
+    <string name="auth_signup_login">Se connecter</string>
+    <string name="auth_signup_error_name">Saisissez votre nom complet.</string>
+    <string name="auth_signup_error_email">Saisissez une adresse e-mail valide.</string>
+    <string name="auth_signup_error_password">Utilisez au moins 8 caractères.</string>
+    <string name="auth_signup_error_terms">Acceptez les conditions pour continuer.</string>
+
+    <!-- Préférences · Rôle -->
+    <string name="auth_role_tag">VOTRE PROFIL</string>
+    <string name="auth_role_title">Et vous,\nvous cherchez quoi ?</string>
+    <string name="auth_role_subtitle">Un chez-vous pour vos études ou des locataires pour votre logement ?</string>
+    <string name="auth_role_student_title">Étudiant</string>
+    <string name="auth_role_student_desc">Je cherche une chambre ou une colocation à Al Hoceïma.</string>
+    <string name="auth_role_student_cta">Explorer, comparer et réserver</string>
+    <string name="auth_role_owner_title">Propriétaire</string>
+    <string name="auth_role_owner_desc">Je propose un logement et je gère les demandes.</string>
+    <string name="auth_role_owner_cta">Publier et suivre mes annonces</string>
+    <string name="auth_role_note">Vous pourrez changer de rôle depuis votre profil, à tout moment.</string>
+    <string name="auth_role_continue_student">Continuer comme étudiant</string>
+    <string name="auth_role_continue_owner">Continuer comme propriétaire</string>
+
+    <!-- Préférences · Langue. Les noms propres de langue (Français, العربية, English) sont dans values/ seulement. -->
+    <string name="auth_language_tag" translatable="false">BIENVENUE · مرحباً</string>
+    <string name="auth_language_title">On parle\nvotre langue.</string>
+    <string name="auth_language_subtitle">Choisissez la langue de l\'application. Vous pourrez la changer dans votre profil.</string>
+    <string name="auth_language_fr_name" translatable="false">Français</string>
+    <string name="auth_language_ar_name" translatable="false">العربية</string>
+    <string name="auth_language_en_name" translatable="false">English</string>
+    <string name="auth_language_fr_sub">French</string>
+    <string name="auth_language_ar_sub">Arabe</string>
+    <string name="auth_language_en_sub">Anglais</string>
+    <string name="auth_language_fr_badge" translatable="false">FR</string>
+    <string name="auth_language_ar_badge" translatable="false">ع</string>
+    <string name="auth_language_en_badge" translatable="false">EN</string>
+    <string name="auth_language_rtl_note">Une expérience pensée aussi de droite à gauche.</string>
+    <string name="auth_language_continue">Continuer en %1$s</string>
+    <string name="auth_language_label_fr">français</string>
+    <string name="auth_language_label_ar">arabe</string>
+    <string name="auth_language_label_en">anglais</string>
+</resources>

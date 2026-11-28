@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lot B (S1-10) : Profil locataire 1 à 3. Graphe à part, inclus par nav_graph.xml : un sous-graphe de
+     nav_tenant.xml ne serait pas joignable depuis nav_signup. Les 3 écrans partagent TenantProfileViewModel
+     (navGraphViewModels(R.id.nav_tenant_profile)). -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_tenant_profile"
+    app:startDestination="@id/tenantProfileEstablishment">
+
+    <fragment
+        android:id="@+id/tenantProfileEstablishment"
+        android:name="ma.shs.app.ui.profile.ProfileEstablishmentFragment"
+        tools:layout="@layout/fragment_profile_establishment">
+        <action
+            android:id="@+id/action_profile_1_to_2"
+            app:destination="@id/tenantProfilePreferences" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tenantProfilePreferences"
+        android:name="ma.shs.app.ui.profile.ProfilePreferencesFragment"
+        tools:layout="@layout/fragment_profile_preferences">
+        <action
+            android:id="@+id/action_profile_2_to_3"
+            app:destination="@id/tenantProfileImportance" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tenantProfileImportance"
+        android:name="ma.shs.app.ui.profile.ProfileImportanceFragment"
+        tools:layout="@layout/fragment_profile_importance">
+        <!-- « Explorer les logements » : accueil de l'espace locataire, sans retour vers l'inscription -->
+        <action
+            android:id="@+id/action_profile_3_to_home"
+            app:destination="@id/nav_tenant"
+            app:popUpTo="@id/nav_signup"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

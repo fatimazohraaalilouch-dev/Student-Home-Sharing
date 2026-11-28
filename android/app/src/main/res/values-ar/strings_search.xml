@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_back">رجوع</string>
+
+    <string name="search_profile_step">بحثك · الخطوة %1$d / %2$d</string>
+    <string name="search_profile_continue">متابعة</string>
+    <string name="search_profile_explore">استكشف السكنات</string>
+
+    <string name="search_profile_1_title">حرمك الجامعي، مرجعك</string>
+    <string name="search_profile_1_intro">ابحث عن سكن قريب من مؤسستك.</string>
+    <string name="search_profile_1_field">الجامعة أو المؤسسة</string>
+    <string name="search_profile_1_hint">ابحث عن مؤسسة</string>
+    <string name="search_profile_1_selected_tag">المؤسسة المحددة</string>
+    <string name="search_profile_1_no_result">لا توجد مؤسسة مطابقة.</string>
+    <string name="search_profile_1_error">اختر مؤسستك للمتابعة.</string>
+    <string name="search_profile_1_info_title">المسافات تُحسب من حرمك الجامعي.</string>
+    <string name="search_profile_1_info_body">يمكنك تغيير هذا الاختيار من الملف الشخصي.</string>
+
+    <string name="search_profile_2_title">رغباتك وحدودك</string>
+    <string name="search_profile_2_budget">الميزانية القصوى</string>
+    <string name="search_profile_2_budget_value">%1$s درهم / شهر</string>
+    <string name="search_profile_2_distance">المسافة القصوى</string>
+    <string name="search_profile_2_distance_value">%1$s كم من الحرم الجامعي</string>
+    <string name="search_profile_2_min">الأدنى</string>
+    <string name="search_profile_2_max">الأقصى</string>
+    <string name="search_profile_2_types">أنواع السكن المفضلة</string>
+    <string name="search_profile_2_amenities">التجهيزات الضرورية</string>
+    <string name="search_profile_2_amenities_note">سيتم اعتماد السكنات التي تتوفر فيها هذه التجهيزات فقط.</string>
+
+    <string name="search_profile_3_title">ما يهمك</string>
+    <string name="search_profile_3_section">أهمية المعايير</string>
+    <string name="search_profile_3_intro">عدّل الترتيب حسب أولوياتك. درجة التوافق لا تقيس المخاطر.</string>
+    <string name="search_profile_3_budget">الميزانية</string>
+    <string name="search_profile_3_distance">المسافة</string>
+    <string name="search_profile_3_amenities">التجهيزات</string>
+    <string name="search_profile_3_rating">التقييم</string>
+    <string name="search_importance_very">مهم جداً</string>
+    <string name="search_importance_important">مهم</string>
+    <string name="search_importance_secondary">ثانوي</string>
+    <string name="search_importance_value">%1$s – %2$d٪</string>
+
+    <string name="search_type_room">غرفة</string>
+    <string name="search_type_studio">استوديو</string>
+    <string name="search_type_apartment">شقة</string>
+    <string name="search_type_shared_room">سكن مشترك</string>
+
+    <string name="search_amenity_wifi">واي فاي</string>
+    <string name="search_amenity_hot_water">ماء ساخن</string>
+    <string name="search_amenity_kitchen">مطبخ</string>
+    <string name="search_amenity_washer">غسالة</string>
+    <string name="search_amenity_desk">مكتب</string>
+    <string name="search_amenity_air_conditioning">تكييف</string>
+
+    <string name="search_sample_ensah_name">المدرسة الوطنية للعلوم التطبيقية بالحسيمة</string>
+    <string name="search_sample_ensah_desc">أجدير، الحسيمة</string>
+    <string name="search_sample_fst_name">كلية العلوم والتقنيات</string>
+    <string name="search_sample_fst_desc">الحسيمة · جامعة عبد المالك السعدي</string>
+    <string name="search_sample_campus_name">الحرم الجامعي بالحسيمة</string>
+    <string name="search_sample_campus_desc">آيت قمرة · جامعة عبد المالك السعدي</string>
+    <string name="search_sample_ispits_name">المعهد العالي للمهن التمريضية وتقنيات الصحة بالحسيمة</string>
+    <string name="search_sample_ispits_desc">الحسيمة · وزارة الصحة</string>
+</resources>

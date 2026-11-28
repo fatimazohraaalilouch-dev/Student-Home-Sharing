@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stroke_option_default">1dp</dimen>
+    <dimen name="stroke_option_selected">2dp</dimen>
+    <dimen name="step_bar_height">4dp</dimen>
+    <dimen name="icon_small">16dp</dimen>
+    <dimen name="icon_badge_box">44dp</dimen>
+</resources>

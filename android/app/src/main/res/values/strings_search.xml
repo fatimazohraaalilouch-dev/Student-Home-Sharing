@@ -1,4 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Lot search : préfixe search_ -->
+<!-- Lot search : préfixe search_. Attention : une apostrophe s'écrit \' dans ce format. -->
 <resources>
+    <string name="search_back">Retour</string>
+
+    <!-- Profil locataire (3 étapes) -->
+    <string name="search_profile_step">VOTRE RECHERCHE · ÉTAPE %1$d / %2$d</string>
+    <string name="search_profile_continue">Continuer</string>
+    <string name="search_profile_explore">Explorer les logements</string>
+
+    <!-- Profil 1 : établissement -->
+    <string name="search_profile_1_title">Votre campus, votre repère</string>
+    <string name="search_profile_1_intro">Trouvez un logement près de votre établissement.</string>
+    <string name="search_profile_1_field">Université ou établissement</string>
+    <string name="search_profile_1_hint">Rechercher un établissement</string>
+    <string name="search_profile_1_selected_tag">Établissement sélectionné</string>
+    <string name="search_profile_1_no_result">Aucun établissement trouvé.</string>
+    <string name="search_profile_1_error">Choisissez votre établissement pour continuer.</string>
+    <string name="search_profile_1_info_title">Les distances partent de votre campus.</string>
+    <string name="search_profile_1_info_body">Vous pourrez modifier ce choix dans Profil.</string>
+
+    <!-- Profil 2 : préférences -->
+    <string name="search_profile_2_title">Vos envies, vos limites</string>
+    <string name="search_profile_2_budget">Budget maximum</string>
+    <string name="search_profile_2_budget_value">%1$s MAD / mois</string>
+    <string name="search_profile_2_distance">Distance maximum</string>
+    <string name="search_profile_2_distance_value">%1$s km du campus</string>
+    <string name="search_profile_2_min">Min.</string>
+    <string name="search_profile_2_max">Max.</string>
+    <string name="search_profile_2_types">Types de logement préférés</string>
+    <string name="search_profile_2_amenities">Équipements indispensables</string>
+    <string name="search_profile_2_amenities_note">Seuls les logements avec ces équipements seront retenus.</string>
+
+    <!-- Profil 3 : importance -->
+    <string name="search_profile_3_title">Ce qui compte pour vous</string>
+    <string name="search_profile_3_section">Importance des critères</string>
+    <string name="search_profile_3_intro">Ajustez le classement selon vos priorités. Le score de compatibilité ne mesure pas le risque.</string>
+    <string name="search_profile_3_budget">Budget</string>
+    <string name="search_profile_3_distance">Distance</string>
+    <string name="search_profile_3_amenities">Équipements</string>
+    <string name="search_profile_3_rating">Note</string>
+    <string name="search_importance_very">Très important</string>
+    <string name="search_importance_important">Important</string>
+    <string name="search_importance_secondary">Secondaire</string>
+    <string name="search_importance_value">%1$s · %2$d %%</string>
+
+    <!-- Types de logement (décision 8 : « Colocation » = SHARED_ROOM) -->
+    <string name="search_type_room">Chambre</string>
+    <string name="search_type_studio">Studio</string>
+    <string name="search_type_apartment">Appartement</string>
+    <string name="search_type_shared_room">Colocation</string>
+
+    <!-- Équipements (décision 9 : 6 codes, libellés de amenity.label_fr) -->
+    <string name="search_amenity_wifi">Wifi</string>
+    <string name="search_amenity_hot_water">Eau chaude</string>
+    <string name="search_amenity_kitchen">Cuisine</string>
+    <string name="search_amenity_washer">Machine à laver</string>
+    <string name="search_amenity_desk">Bureau</string>
+    <string name="search_amenity_air_conditioning">Climatisation</string>
+
+    <!-- Établissements d'exemple (écran Profil 1, en attendant GET /establishments en S1-13) -->
+    <string name="search_sample_ensah_name">ENSA Al Hoceïma</string>
+    <string name="search_sample_ensah_desc">École Nationale des Sciences Appliquées\nAjdir, Al Hoceïma</string>
+    <string name="search_sample_fst_name">Faculté des Sciences et Techniques</string>
+    <string name="search_sample_fst_desc">Al Hoceïma · Université Abdelmalek Essaâdi</string>
+    <string name="search_sample_campus_name">Campus universitaire d\'Al Hoceïma</string>
+    <string name="search_sample_campus_desc">Aït Kamara · Université Abdelmalek Essaâdi</string>
+    <string name="search_sample_ispits_name">ISPITS Al Hoceïma</string>
+    <string name="search_sample_ispits_desc">Al Hoceïma · Ministère de la Santé</string>
 </resources>
