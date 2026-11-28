@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_back">رجوع</string>
+
+    <string name="auth_signup_tag">ملف الطالب</string>
+    <string name="auth_signup_title">مرحباً بك في بيتك.</string>
+    <string name="auth_signup_subtitle">سكنك القادم يبدأ من هنا.</string>
+    <string name="auth_signup_subtitle_errors">تحقق من الحقول المشار إليها أدناه.</string>
+    <string name="auth_signup_name_label">الاسم الكامل</string>
+    <string name="auth_signup_name_hint">مثال: سلمى العمراني</string>
+    <string name="auth_signup_email_label">البريد الإلكتروني</string>
+    <string name="auth_signup_email_hint">name@example.ma</string>
+    <string name="auth_signup_password_label">كلمة المرور</string>
+    <string name="auth_signup_password_hint">8 أحرف على الأقل</string>
+    <string name="auth_signup_phone_label">الهاتف · اختياري</string>
+    <string name="auth_signup_phone_hint">+212 6 00 00 00 00</string>
+    <string name="auth_signup_terms">أوافق على شروط الاستخدام وسياسة الخصوصية.</string>
+    <string name="auth_signup_submit">إنشاء حسابي</string>
+    <string name="auth_signup_privacy_note">بياناتك لا تُعرض للعموم.</string>
+    <string name="auth_signup_have_account">هل لديك حساب؟</string>
+    <string name="auth_signup_login">تسجيل الدخول</string>
+    <string name="auth_signup_error_name">أدخل اسمك الكامل.</string>
+    <string name="auth_signup_error_email">أدخل بريداً إلكترونياً صالحاً.</string>
+    <string name="auth_signup_error_password">استخدم 8 أحرف على الأقل.</string>
+    <string name="auth_signup_error_terms">وافق على الشروط للمتابعة.</string>
+
+    <string name="auth_role_tag">ملفك</string>
+    <string name="auth_role_title">وأنت،\nعمّ تبحث؟</string>
+    <string name="auth_role_subtitle">سكن لدراستك أم مستأجرون لعقارك؟</string>
+    <string name="auth_role_student_title">طالب</string>
+    <string name="auth_role_student_desc">أبحث عن غرفة أو سكن مشترك في الحسيمة.</string>
+    <string name="auth_role_student_cta">استكشف وقارن واحجز</string>
+    <string name="auth_role_owner_title">مالك</string>
+    <string name="auth_role_owner_desc">أعرض سكناً وأدير الطلبات.</string>
+    <string name="auth_role_owner_cta">انشر إعلاناتي وتابعها</string>
+    <string name="auth_role_note">يمكنك تغيير الدور من ملفك في أي وقت.</string>
+    <string name="auth_role_continue_student">المتابعة كطالب</string>
+    <string name="auth_role_continue_owner">المتابعة كمالك</string>
+
+    <string name="auth_language_title">نتحدث\nلغتك.</string>
+    <string name="auth_language_subtitle">اختر لغة التطبيق. يمكنك تغييرها من ملفك.</string>
+    <string name="auth_language_fr_sub">الفرنسية</string>
+    <string name="auth_language_ar_sub">العربية</string>
+    <string name="auth_language_en_sub">الإنجليزية</string>
+    <string name="auth_language_rtl_note">تجربة مصممة أيضاً من اليمين إلى اليسار.</string>
+    <string name="auth_language_continue">المتابعة بـ%1$s</string>
+    <string name="auth_language_label_fr">الفرنسية</string>
+    <string name="auth_language_label_ar">العربية</string>
+    <string name="auth_language_label_en">الإنجليزية</string>
+</resources>

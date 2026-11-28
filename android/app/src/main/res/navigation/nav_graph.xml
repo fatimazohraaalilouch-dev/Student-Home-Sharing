@@ -5,7 +5,9 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/nav_auth">
     <include app:graph="@navigation/nav_auth" />
+    <include app:graph="@navigation/nav_signup" />
     <include app:graph="@navigation/nav_tenant" />
+    <include app:graph="@navigation/nav_tenant_profile" />
     <include app:graph="@navigation/nav_booking" />
     <include app:graph="@navigation/nav_messaging" />
     <include app:graph="@navigation/nav_owner" />

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Écrans Inscription, Préférences, Profil locataire (S1-10) : fond d'un choix sélectionné.
+     Valeur claire échantillonnée sur les maquettes (comme shs_badge_done_bg). -->
+<resources>
+    <color name="shs_selected_container">#E5F3EF</color>
+</resources>
